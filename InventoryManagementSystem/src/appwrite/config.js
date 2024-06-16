@@ -18,7 +18,7 @@ export class AppwriteService{
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId, 
-                conf.appwrite_Pruduct_CollectionId, 
+                conf.appwrite_Product_CollectionId, 
                 Product_ID,
                 {
                     Product_Name, 
@@ -38,7 +38,7 @@ export class AppwriteService{
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Pruduct_CollectionId,
+                conf.appwrite_Product_CollectionId,
                 Product_ID,
                 {
                     Product_Name, 
@@ -56,7 +56,7 @@ export class AppwriteService{
         try {
             return await this.databases.deleteDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Pruduct_CollectionId,
+                conf.appwrite_Product_CollectionId,
                 Product_ID
             )
         } catch (error) {
@@ -68,7 +68,7 @@ export class AppwriteService{
         try {
             return await this.databases.getDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Pruduct_CollectionId,
+                conf.appwrite_Product_CollectionId,
                 Product_ID
             );
         } catch (error) {
@@ -81,7 +81,7 @@ export class AppwriteService{
         try {
             return await this.databases.listDocuments(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Pruduct_CollectionId,
+                conf.appwrite_Product_CollectionId,
                 querys
             )
         } catch (error) {
@@ -93,8 +93,11 @@ export class AppwriteService{
             return await this.databases.createDocument(
                conf.appwrite_DatabaseId,
                conf.appwrite_Category_CollectionId,
-               Category_ID,
-               Category_Name
+                { 
+                    Category_ID,
+                    Category_Name
+            }
+
 
             )
         } catch (error) {
@@ -282,5 +285,44 @@ export class AppwriteService{
             throw("Appwrite serive :: getPerchaseOrderdetails :: error",error);
         }
     }
-   
+
+    // file service
+
+    async uploadPicture(file){
+        try {
+            return this.bucket.createFile(
+                conf.appwrite_BucketId,
+                ID.unique(),
+                file    
+            );
+        } catch (error) {
+            throw ("Appwrite serive :: uploadPicture :: error",error);
+        }
+    }
+
+    async deletePicture(fileId){
+        try {
+            return this.bucket.deleteFile(
+                conf.appwrite_BucketId,
+                fileId
+            );
+        } catch (error) {
+            throw ("Appwrite serive :: deletePicture :: error",error);
+        }
+    }
+
+    async picturePreview(fileId){
+        try {
+            return this.bucket.getFile(
+                conf.appwrite_BucketId,
+                fileId
+            )
+        } catch (error) {
+            throw("Appwrite serive :: picturePreview :: error",error);
+        }
+    }
 }
+
+const appwriteService = new AppwriteService();
+
+export default appwriteService;
