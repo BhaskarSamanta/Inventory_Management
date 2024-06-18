@@ -7,6 +7,7 @@ import Home from "./Home/Home";
 import Signup from "./SignupAndLogin/Signup";
 import Login from "./SignupAndLogin/Login";
 import Logo from "./Logo";
+import DashBoard from "./Dashboard/Dashboard.jsx";
 
 export {
     Input,
@@ -17,5 +18,6 @@ export {
     Home,
     Signup,
     Login,
-    Logo
+    Logo,
+    DashBoard
 }
