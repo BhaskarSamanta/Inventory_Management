@@ -3,7 +3,6 @@ import BarChart from './BarChart';
 import appwriteService from "../../appwrite/config.js";
 import authService from "../../appwrite/auth.js";
 import { Query } from "appwrite";
-import { useHistory } from "react-router-dom";
 
 function DashBoard() {
     const [products, setProducts] = useState([]);

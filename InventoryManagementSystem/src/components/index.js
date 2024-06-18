@@ -8,6 +8,10 @@ import Signup from "./SignupAndLogin/Signup";
 import Login from "./SignupAndLogin/Login";
 import Logo from "./assets/Logo";
 import DashBoard from "./Dashboard/Dashboard.jsx";
+import AddItems from "./Inventory/AddItems";
+import AddCategory from "./Category/AddCategory";
+import AddShipment from "./Shipment/AddShipment";
+import AddSuplier from "./Supplier/AddSuplier";
 
 export {
     Input,
@@ -20,4 +24,8 @@ export {
     Login,
     Logo,
     DashBoard,
+    AddItems,
+    AddCategory,
+    AddShipment,
+    AddSuplier
 }

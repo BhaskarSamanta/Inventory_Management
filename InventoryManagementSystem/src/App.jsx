@@ -1,6 +1,6 @@
 import React from 'react'
 import { DashBoard } from './components'
-
+import { AddItems } from './components'
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -11,7 +11,7 @@ function App() {
                 <h1 className="text-3xl">Inventory Management System</h1>
             </header>
             <main className="p-4">
-                <DashBoard />
+                <AddItems />
             </main>
         </div>
     </div>
