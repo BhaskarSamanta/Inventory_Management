@@ -3,10 +3,12 @@ import BarChart from './BarChart';
 import appwriteService from "../../appwrite/config.js";
 import authService from "../../appwrite/auth.js";
 import { Query } from "appwrite";
+import { useHistory } from "react-router-dom";
 
 function DashBoard() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const history = useHistory();
     const [userID,setuserID] = useState("");
 
 
@@ -15,10 +17,10 @@ function DashBoard() {
             try {
                 const user = await authService.getCurrentUser();
                 if(!user){
-                    history.push("/login")
+                   history.push("/Login");
                 }
                 setuserID(user.$id);
-                const response = await appwriteService.getProducts(Query.equal("User_ID", [user.$id]));
+                const response = await appwriteService.getProducts(Query.equal( userID , [user.$id]));
                 setProducts(response.documents);
                 setIsLoading(false);
             } catch (error) {

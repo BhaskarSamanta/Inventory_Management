@@ -4,7 +4,7 @@ import {Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import authSlice from '../../store/authSlice'
 import { useForm } from 'react-hook-form'
-import Logo from '../Logo'
+import Logo from '../assets/Logo'
 import { Input } from '../ui/input'
 import {Button} from '../ui/button'
 

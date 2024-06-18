@@ -6,7 +6,7 @@ import SideBar from "./sideBar/SideBar";
 import Home from "./Home/Home";
 import Signup from "./SignupAndLogin/Signup";
 import Login from "./SignupAndLogin/Login";
-import Logo from "./Logo";
+import Logo from "./assets/Logo";
 import DashBoard from "./Dashboard/Dashboard.jsx";
 
 export {
@@ -19,5 +19,5 @@ export {
     Signup,
     Login,
     Logo,
-    DashBoard
+    DashBoard,
 }
