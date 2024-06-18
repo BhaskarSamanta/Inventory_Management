@@ -1,5 +1,5 @@
-import {Input} from "./Input";
-import {Button} from "./Button";
+import {Input} from "./ui/input";
+import {Button} from "./ui/button";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import SideBar from "./sideBar/SideBar";
