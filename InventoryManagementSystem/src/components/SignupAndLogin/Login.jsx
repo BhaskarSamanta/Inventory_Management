@@ -9,8 +9,8 @@ import {Button} from '../ui/button'
 import { Logo } from '../'
 
 export default function Login() {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {register, handleSubmit,} = useForm();
   const[error, setError] = useState("");
 
@@ -20,10 +20,10 @@ export default function Login() {
       if(session) {
         const userData = await authService.getCurrentUser();
         if(userData) {
-          // dispatch(authLogin(userData));
-          // navigate("/Products");
+          dispatch(authLogin(userData));
+          navigate("/Products");
         }
-      }
+      } 
     } catch (error) {
       setError(error.message)
     }

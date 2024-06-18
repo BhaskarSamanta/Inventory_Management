@@ -11,8 +11,8 @@ import {Button} from '../ui/button'
 
 export default function Signup() {
 
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {register, handleSubmit,} = useForm();
   const[error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,8 +25,8 @@ export default function Signup() {
         const userData = await authService.getCurrentUser()
         if(userData){
           
-          // dispatch(authSlice.actions.login(userData))
-          // navigate('/Products');
+          dispatch(authSlice.actions.login(userData))
+          navigate('/Products');
           
         }
 
