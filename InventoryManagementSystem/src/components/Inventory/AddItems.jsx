@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import appwriteService from '../../appwrite/config';  // Adjust path as necessary
-import authService from '../../appwrite/auth';  // Adjust path as necessary
+import appwriteService from '../../appwrite/config';
+import authService from '../../appwrite/auth';  
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -9,8 +9,8 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator
-} from '../ui/dropdown-menu.jsx'; // Adjust path if needed
-import { Button, Input } from '../index'; // Adjust path as necessary
+} from '../ui/dropdown-menu.jsx';
+import { Button, Input } from '../index'; 
 import { ID } from 'appwrite';
 
 export default function AddItems() {
