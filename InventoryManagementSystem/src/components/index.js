@@ -6,12 +6,14 @@ import SideBar from "./sideBar/SideBar";
 import Home from "./Home/Home";
 import Signup from "./SignupAndLogin/Signup";
 import Login from "./SignupAndLogin/Login";
-import Logo from "./assets/Logo";
 import DashBoard from "./Dashboard/Dashboard.jsx";
 import AddItems from "./Inventory/AddItems";
 import AddCategory from "./Category/AddCategory";
 import AddShipment from "./Shipment/AddShipment";
 import AddSuplier from "./Supplier/AddSuplier";
+import Container from "./container/Container";
+import LogoutBtn from "./Header/LogoutBtn";
+import Logo from "./assets/Logo";
 
 export {
     Input,
@@ -27,5 +29,7 @@ export {
     AddItems,
     AddCategory,
     AddShipment,
-    AddSuplier
+    AddSuplier,
+    Container,
+    LogoutBtn
 }
