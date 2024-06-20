@@ -14,6 +14,9 @@ import AddSuplier from "./Supplier/AddSuplier";
 import Container from "./container/Container";
 import LogoutBtn from "./Header/LogoutBtn";
 import Logo from "./assets/Logo";
+import EditProduct from "./Inventory/EditItems";
+import Inventory from "./Inventory/Inventory";
+
 
 export {
     Input,
@@ -31,5 +34,7 @@ export {
     AddShipment,
     AddSuplier,
     Container,
-    LogoutBtn
+    LogoutBtn,
+    EditProduct,
+    Inventory 
 }

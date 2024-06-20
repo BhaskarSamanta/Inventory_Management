@@ -2,22 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import appwriteService from '../../appwrite/config';
 import authService from '../../appwrite/auth';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator
-} from '../ui/dropdown-menu.jsx';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '../ui/dropdown-menu.jsx';
 import { Button, Input } from '../index';
-import { 
-  Form, 
-  FormItem, 
-  FormLabel, 
-  FormControl, 
-  FormMessage } from '../ui/form';
+import { Form, FormItem, FormLabel, FormControl, FormMessage } from '../ui/form';
 import { ID } from 'appwrite';
+
+
 
 export default function AddItems() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -159,7 +149,7 @@ export default function AddItems() {
                   <DropdownMenuItem
                     key={supplier.$id}
                     className="p-2 hover:bg-gray-700 cursor-pointer"
-                    onSelect={() => setSelectedSupplier(supplier.$id)}
+                    onSelect={() => handleSupplierSelect(supplier.$id)}
                   >
                     {supplier.Supplier_Name}
                   </DropdownMenuItem>
@@ -183,7 +173,7 @@ export default function AddItems() {
                   <DropdownMenuItem
                     key={category.$id}
                     className="p-2 hover:bg-gray-700 cursor-pointer"
-                    onSelect={() => setSelectedCategory(category.$id)}
+                    onSelect={() => handleCategorySelect(category.$id)}
                   >
                     {category.Category_Name}
                   </DropdownMenuItem>
