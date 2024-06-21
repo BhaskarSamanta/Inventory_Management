@@ -272,7 +272,7 @@ export class AppwriteService{
         }
     }
 
-    async addPurchaseOrderdetails(Detail_Id,{Quantity,Unit_Price,Total_Price, purchaseOrder, Product_ID}){
+    async addPurchaseOrderdetails(Detail_Id,{Quantity,Unit_Price,Total_Price, Product_ID}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,

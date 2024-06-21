@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import appwriteService from '../../appwrite/config'
-import authService from '@/appwrite/auth'
-import { Query } from 'appwrite'
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../ui/form.jsx'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import appwriteService from '../../appwrite/config';
+import authService from '@/appwrite/auth';
+import { Query } from 'appwrite';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../ui/form.jsx';
+import { Button } from '../ui/button';
 
 function Order() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [suppliers, setSuppliers] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const navigate = useNavigate()
-  const [user, setUser] = useState(null)
-  const [orders, setOrders] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
-  // fetching the current user
+  // Fetch the current user
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -23,39 +25,53 @@ function Order() {
           setUser(currentUser);
         }
       } catch (error) {
-        setError("Failed to fetch user", error);
+        setError("Failed to fetch user");
       }
     };
     fetchUser();
   }, [navigate]);
 
-
-  // fetching user for the logedin user
+  // Fetch orders and suppliers
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrdersAndSuppliers = async () => {
       try {
         if (user) {
-          const orders = await appwriteService.getPurchaseOrders(Query.equal("User_ID", [user?.$id]));
-          setOrders(orders.documents);
+          // Fetch orders
+          const ordersResponse = await appwriteService.getPurchaseOrders(Query.equal("User_ID", [user?.$id]));
+          const ordersData = ordersResponse.documents;
+
+          // Extract unique supplier IDs
+          const supplierIds = [...new Set(ordersData.map(order => order.supplier_Id))];
+
+          // Fetch suppliers
+          const suppliersData = {};
+          await Promise.all(supplierIds.map(async (supplierId) => {
+            const supplierResponse = await appwriteService.getSupplier(supplierId);
+            suppliersData[supplierId] = supplierResponse;
+          }));
+
+          setOrders(ordersData);
+          setSuppliers(suppliersData);
           setIsLoading(false);
         }
       } catch (error) {
-        setError("Failed to fetch orders", error);
+        setError("Failed to fetch orders or suppliers");
         setIsLoading(false);
       }
     };
 
-    fetchOrders();
-  }, [user]); 
+    fetchOrdersAndSuppliers();
+  }, [user]);
 
-  const hadleDelete = async (id) => {
+  // Delete order function
+  const handleDelete = async (id) => {
     try {
       await appwriteService.deleteOrder(id);
       setOrders(orders.filter((order) => order.$id !== id));
     } catch (error) {
-      throw ("Appwrite serive :: deleteOrder :: error",error);
+      setError("Failed to delete order");
     }
-  }
+  };
 
   return (
     <div className="container mx-auto">
@@ -70,7 +86,8 @@ function Order() {
               <TableHead>Order Date</TableHead>
               <TableHead>Total Amount</TableHead>
               <TableHead>Order Status</TableHead>
-              <TableHead>Action</TableHead> {/* New table head for action buttons */}
+              <TableHead>Supplier Name</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -80,8 +97,9 @@ function Order() {
                 <TableCell>{order.Order_Date}</TableCell>
                 <TableCell>{order.Total_Amount}</TableCell>
                 <TableCell>{order.Order_Status}</TableCell>
+                <TableCell>{suppliers[order.supplier_Id]?.Supplier_Name || 'Unknown'}</TableCell>
                 <TableCell>
-                  <Button onClick={() => hadleDelete(order.$id)} variant="danger">Delete</Button>
+                  <Button onClick={() => handleDelete(order.$id)} variant="danger">Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -90,7 +108,7 @@ function Order() {
       )}
       {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
-  )
+  );
 }
 
-export default Order
+export default Order;
