@@ -5,7 +5,8 @@ import authService from '../../appwrite/auth';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '../ui/dropdown-menu.jsx';
 import { Button, Input } from '../index';
 import { Form, FormItem, FormLabel, FormControl, FormMessage } from '../ui/form';
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
+import { useNavigate } from 'react-router';
 
 
 
@@ -17,13 +18,14 @@ export default function AddItems() {
   const [categories, setCategories] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const user = await authService.getCurrentUser();
         if (!user) {
-          history.push('/Login');
+          navigate('/Login');
         } else {
           setUser(user);
         }
@@ -38,10 +40,10 @@ export default function AddItems() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const supplierData = await appwriteService.getSuppliers();
+        const supplierData = await appwriteService.getSuppliers(Query.equal("User_ID",[user.$id]));
         setSuppliers(supplierData.documents);
 
-        const categoryData = await appwriteService.getCategories();
+        const categoryData = await appwriteService.getCatagories(Query.equal("User_ID", [user.$id]));
         setCategories(categoryData.documents);
       } catch (error) {
         setError('Failed to fetch suppliers or categories.');

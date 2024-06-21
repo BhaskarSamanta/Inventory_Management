@@ -4,8 +4,16 @@ import { Query } from 'appwrite'; // Import the Query object from Appwrite SDK
 import appwriteService from '../../appwrite/config';
 import authService from '../../appwrite/auth';
 import { Button } from '../index.js';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '../ui/form.jsx'
 
-function Inventory() {
+export default function Inventory() {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,9 +22,9 @@ function Inventory() {
   // Fetch the current user
   const fetchCurrentUser = async () => {
     try {
-      const user = await authService.getCurrentUser();
-      if (user) {
-        setUser(user);
+      const currentUser = await authService.getCurrentUser();
+      if (currentUser) {
+        setUser(currentUser);
         fetchProducts(user.$id); // Fetch products for the user
       } else {
         navigate('/login');
@@ -62,46 +70,44 @@ function Inventory() {
       ) : products.length === 0 ? (
         <p className="text-center">No products available. <button className="text-blue-500" onClick={() => navigate('/add-product')}>Add a product</button></p>
       ) : (
-        <table className="min-w-full bg-gray-700 rounded-md shadow-md">
-          <thead>
-            <tr className="text-left">
-              <th className="p-4 border-b border-gray-600">Product Name</th>
-              <th className="p-4 border-b border-gray-600">Price</th>
-              <th className="p-4 border-b border-gray-600">Stock Quantity</th>
-              <th className="p-4 border-b border-gray-600">Supplier</th>
-              <th className="p-4 border-b border-gray-600">Category</th>
-              <th className="p-4 border-b border-gray-600">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="min-w-full bg-gray-700 rounded-md shadow-md">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="p-4 border-b border-gray-600">Product Name</TableHead>
+              <TableHead className="p-4 border-b border-gray-600">Price</TableHead>
+              <TableHead className="p-4 border-b border-gray-600">Stock Quantity</TableHead>
+              <TableHead className="p-4 border-b border-gray-600">Supplier</TableHead>
+              <TableHead className="p-4 border-b border-gray-600">Category</TableHead>
+              <TableHead className="p-4 border-b border-gray-600">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {products.map(product => (
-              <tr key={product.$id} className="hover:bg-gray-600">
-                <td className="p-4 border-b border-gray-600">{product.Product_Name}</td>
-                <td className="p-4 border-b border-gray-600">{product.Price}</td>
-                <td className="p-4 border-b border-gray-600">{product.Stock_Qty}</td>
-                <td className="p-4 border-b border-gray-600">{product.Supplier_Name}</td>
-                <td className="p-4 border-b border-gray-600">{product.Category_Name}</td>
-                <td className="p-4 border-b border-gray-600">
-                  <button
+              <TableRow key={product.$id} className="hover:bg-gray-600">
+                <TableCell className="p-4 border-b border-gray-600">{product.Product_Name}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{product.Price}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{product.Stock_Qty}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{product.Supplier_Name}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{product.Category_Name}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">
+                  <Button
                     className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                    onClick={() => navigate(`/Edit-Product/${product.$id}`)}
+                    onClick={() => navigate(`/EditItems/${product.$id}`)}
                   >
                     Edit
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     className="bg-red-500 text-white p-2 rounded-md"
                     onClick={() => handleDelete(product.$id)}
                   >
                     Delete
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
     </div>
   );
 }
-
-export default Inventory;

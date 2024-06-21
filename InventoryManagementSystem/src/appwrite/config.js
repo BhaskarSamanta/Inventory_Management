@@ -88,14 +88,15 @@ export class AppwriteService{
             throw ("Appwrite serive :: getProducts :: error",error);
         }
     }
-    async addCatagory({Category_Name, Category_ID}){
+    async addCatagory({Category_Name, Category_ID, User_ID}) {
         try {
             return await this.databases.createDocument(
                conf.appwrite_DatabaseId,
                conf.appwrite_Category_CollectionId,
                 { 
                     Category_ID,
-                    Category_Name
+                    Category_Name,
+                    User_ID
             }
 
 
@@ -129,7 +130,19 @@ export class AppwriteService{
         }
     }
 
-    async addSupplier(Supplier_ID,{Supplier_Name, Address, Contact}){
+    async getCatagories(querys = Query.equal("Category_ID", [true])){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwrite_DatabaseId,
+                conf.appwrite_Category_CollectionId,
+                querys
+            )
+        } catch (error) {
+            throw ("Appwrite serive :: getCatagories :: error",error);
+        }
+    }
+
+    async addSupplier(Supplier_ID,{Supplier_Name, Address, Contact,User_ID}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
@@ -138,7 +151,8 @@ export class AppwriteService{
                 {
                     Supplier_Name,
                     Address,
-                    Contact
+                    Contact,
+                    User_ID
                 }
             )
         } catch (error) {
@@ -159,6 +173,7 @@ export class AppwriteService{
     }
 
     async updateSupplier(Supplier_ID,{Supplier_Name, Address, Contact}){
+
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_DatabaseId,
@@ -167,7 +182,7 @@ export class AppwriteService{
                 {
                     Supplier_Name,
                     Address,
-                    Contact
+                    Contact,
                 }
 
             )
@@ -176,12 +191,12 @@ export class AppwriteService{
         }
     }
 
-    async getSupplier(Supplier_ID){
+    async getSupplier(User_ID){
         try {
             return await this.databases.getDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Pruduct_CollectionId,
-                Supplier_ID
+                conf.appwrite_Supplier_CollectionId,
+                User_ID
             );
         } catch (error) {
             throw ("Appwrite serive :: getProduct :: error",error);

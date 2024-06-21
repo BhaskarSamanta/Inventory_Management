@@ -79,8 +79,9 @@ export default function EditProduct() {
           <FormLabel>Product Name</FormLabel>
           <FormControl>
             <Input
-              className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder={`${product?.Product_Name}`}
+              className = "border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder = {`${product?.Product_Name}`}
+              defaultValue = {`${product?.Product_Name}`}
               {...register('Product_Name', { required: 'Product Name is required' })}
             />
           </FormControl>
@@ -95,6 +96,7 @@ export default function EditProduct() {
               step="0.01"
               className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={`${product?.Price}`}
+              defaultValue={`${product?.Price}`}
               {...register('Price', { required: 'Price is required' })}
             />
           </FormControl>
@@ -107,6 +109,7 @@ export default function EditProduct() {
             <Input
               className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={`${product?.Description}`}
+              defaultValue={`${product?.Description}`}
               {...register('Description')}
             />
           </FormControl>
@@ -119,6 +122,7 @@ export default function EditProduct() {
               type="number"
               className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={`${product?.Stock_Qty}`}
+              defaultValue={`${product?.Stock_Qty}`}
               {...register('Stock_Qty', { required: 'Stock Quantity is required' })}
             />
           </FormControl>
