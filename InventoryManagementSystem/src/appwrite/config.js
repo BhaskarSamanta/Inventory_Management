@@ -216,7 +216,7 @@ export class AppwriteService{
         }
     }
 
-    async addPurchaseOrder(Order_Id,{Total_Amount,Order_Date,supplier_Id}){
+    async addPurchaseOrder(Order_Id,{Total_Amount,Order_Date,supplier_Id, User_ID,Order_Statues}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
@@ -225,7 +225,9 @@ export class AppwriteService{
                 {
                     Total_Amount,
                     Order_Date,
-                    supplier_Id
+                    supplier_Id,
+                    User_ID,
+                    Order_Statues
                 }
             )
         } catch (error) {
@@ -255,6 +257,18 @@ export class AppwriteService{
             )
         } catch (error) {
             throw ("Appwrite serive :: getPerchaseOrder :: error",error);
+        }
+    }
+
+    async getPurchaseOrders(querys = Query.equal("Order_Id", [true])){
+        try {
+            await this.databases.listDocuments(
+                conf.appwrite_DatabaseId,
+                conf.appwrite_Purchase_Order_CollectionId,
+                querys
+            )
+        } catch (error) {
+            throw ("Appwrite serive :: getPerchaseOrders :: error",error);
         }
     }
 

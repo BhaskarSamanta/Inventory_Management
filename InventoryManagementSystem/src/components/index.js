@@ -9,7 +9,7 @@ import Login from "./SignupAndLogin/Login";
 import DashBoard from "./Dashboard/Dashboard.jsx";
 import AddItems from "./Inventory/AddItems";
 import AddCategory from "./Category/AddCategory";
-import AddShipment from "./Shipment/AddShipment";
+import AddShipment from "./OrderDetails/AddOrderDetail";
 import AddSuplier from "./Supplier/AddSuplier";
 import Container from "./container/Container";
 import LogoutBtn from "./Header/LogoutBtn";
