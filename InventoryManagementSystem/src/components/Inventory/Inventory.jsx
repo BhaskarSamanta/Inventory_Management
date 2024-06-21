@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation
-import { Query } from 'appwrite'; // Import the Query object from Appwrite SDK
+import { useNavigate } from 'react-router-dom';
+import { Query } from 'appwrite';
 import appwriteService from '../../appwrite/config';
 import authService from '../../appwrite/auth';
 import { Button } from '../index.js';
@@ -11,64 +11,99 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '../ui/form.jsx'
+} from '../ui/table';
 
 export default function Inventory() {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch the current user
-  const fetchCurrentUser = async () => {
-    try {
-      const currentUser = await authService.getCurrentUser();
-      if (currentUser) {
-        setUser(currentUser);
-        fetchProducts(user.$id); // Fetch products for the user
-      } else {
+  //fetch user
+  
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Appwrite service :: getCurrentUser :: error', error);
         navigate('/login');
       }
-    } catch (error) {
-      console.error('Appwrite service :: getCurrentUser :: error', error);
-      navigate('/login');
-    }
-  };
+    };
 
-  // Fetch products for the current user
-  const fetchProducts = async (userId) => {
-    try {
-      const response = await appwriteService.getProducts(Query.equal('User_ID', userId));
-      setProducts(response.documents);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setIsLoading(false);
-    }
-  };
+    fetchCurrentUser();
+  }, [navigate]);
 
-  // Handle product deletion
+
+
+  useEffect(() => {
+    const fetchData = async (userId) => {
+      setIsLoading(true);
+      try {
+        // Fetch products
+        const productsResponse = await appwriteService.getProducts(Query.equal('User_ID', userId));
+        const productsData = productsResponse.documents;
+
+        // Fetch suppliers and categories
+        const suppliersResponse = await appwriteService.getSuppliers( Query.equal("User_ID", [userId]));
+        
+        const categoriesResponse = await appwriteService.getCatagories(Query.equal("User_ID", [userId]));
+
+        const suppliersData = suppliersResponse.documents.reduce((acc, supplier) => {
+          acc[supplier.Supplier_ID] = supplier.Supplier_Name;
+          return acc;
+        }, {});
+
+        const categoriesData = categoriesResponse.documents.reduce((acc, category) => {
+          acc[category.Category_ID] = category.Category_Name;
+          return acc;
+        }, {});
+
+        // Update states
+        setProducts(productsData);
+        setSuppliers(suppliersData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Failed to fetch data.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchData(user.$id);
+    }
+  }, [user]);
+
   const handleDelete = async (productId) => {
     try {
       await appwriteService.deleteProduct(productId);
-      setProducts(products.filter(product => product.$id !== productId));
+      setProducts(products.filter(product => product.Product_ID !== productId));
     } catch (error) {
       console.error('Error deleting product:', error);
     }
   };
-
-  // Fetch user and products on component mount
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
 
   return (
     <div className="p-6 bg-gray-800 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">Inventory</h2>
       {isLoading ? (
         <p>Loading...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
       ) : products.length === 0 ? (
-        <p className="text-center">No products available. <button className="text-blue-500" onClick={() => navigate('/add-product')}>Add a product</button></p>
+        <p className="text-center">
+          No products available. <button className="text-blue-500" onClick={() => navigate('/add-product')}>Add a product</button>
+        </p>
       ) : (
         <Table className="min-w-full bg-gray-700 rounded-md shadow-md">
           <TableHeader>
@@ -83,22 +118,22 @@ export default function Inventory() {
           </TableHeader>
           <TableBody>
             {products.map(product => (
-              <TableRow key={product.$id} className="hover:bg-gray-600">
+              <TableRow key={product.Product_ID} className="hover:bg-gray-600">
                 <TableCell className="p-4 border-b border-gray-600">{product.Product_Name}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">{product.Price}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">{product.Stock_Qty}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{product.Supplier_Name}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{product.Category_Name}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{suppliers[product.Supplier_ID]}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">{categories[product.Category_ID]}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">
                   <Button
                     className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                    onClick={() => navigate(`/EditItems/${product.$id}`)}
+                    onClick={() => navigate(`/EditItems/${product.Product_ID}`)}
                   >
                     Edit
                   </Button>
                   <Button
                     className="bg-red-500 text-white p-2 rounded-md"
-                    onClick={() => handleDelete(product.$id)}
+                    onClick={() => handleDelete(product.Product_ID)}
                   >
                     Delete
                   </Button>

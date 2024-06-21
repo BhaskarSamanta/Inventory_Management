@@ -6,4 +6,4 @@ function OrderDetail() {
   )
 }
 
-export default OrderDetail 
+export default OrderDetail

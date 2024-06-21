@@ -1,21 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams, useNavigate } from 'react-router-dom'; // Updated import
+import { useParams, useNavigate } from 'react-router-dom';
 import appwriteService from '../../appwrite/config';
+import authService from '../../appwrite/auth';
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,DropdownMenuSeparator, } from '../ui/dropdown-menu';
 import { Button, Input } from '../index';
 import { Form, FormItem, FormLabel, FormControl, FormMessage, } from '../ui/form';
+import { Query } from 'appwrite';
 
 export default function EditProduct() {
+
   const { id } = useParams(); // Get the product ID from URL
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const [error, setError] = useState('');
   const [product, setProduct] = useState(null);
   const [suppliers, setSuppliers] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(null);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate(); // Initialize navigate
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Appwrite service :: getCurrentUser :: error', error);
+        navigate('/login');
+      }
+    };
+
+    fetchCurrentUser();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +51,10 @@ export default function EditProduct() {
         setSelectedSupplier(productData.Supplier_ID);
         setSelectedCategory(productData.Category_ID);
 
-        const supplierData = await appwriteService.getSuppliers();
+        const supplierData = await appwriteService.getSuppliers( Query.equal("User_ID", [user.$id]) );
         setSuppliers(supplierData.documents);
 
-        const categoryData = await appwriteService.getCategories();
+        const categoryData = await appwriteService.getCatagories( Query.equal("User_ID", [user.$id]) );
         setCategories(categoryData.documents);
       } catch (error) {
         setError('Failed to fetch product details.');
@@ -134,16 +156,16 @@ export default function EditProduct() {
           <FormControl>
             <DropdownMenu>
               <DropdownMenuTrigger className="w-full border border-gray-600 bg-gray-900 text-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                {selectedSupplier ? suppliers.find(s => s.$id === selectedSupplier)?.Supplier_Name : "Select Supplier"}
+                {selectedSupplier ? suppliers.find(s => s.Supplier_ID === selectedSupplier)?.Supplier_Name : "Select Supplier"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-gray-800 text-gray-300 shadow-lg rounded-md p-2 mt-2 w-full">
                 <DropdownMenuLabel className="text-gray-400 font-semibold">Select Supplier</DropdownMenuLabel>
                 <DropdownMenuSeparator className="border-gray-600" />
                 {suppliers.map((supplier) => (
                   <DropdownMenuItem
-                    key={supplier.$id}
+                    key={supplier.Supplier_ID}
                     className="p-2 hover:bg-gray-700 cursor-pointer"
-                    onSelect={() => handleSupplierSelect(supplier.$id)}
+                    onSelect={() => handleSupplierSelect(supplier.Supplier_ID)}
                   >
                     {supplier.Supplier_Name}
                   </DropdownMenuItem>
@@ -158,7 +180,7 @@ export default function EditProduct() {
           <FormControl>
             <DropdownMenu>
               <DropdownMenuTrigger className="w-full border border-gray-600 bg-gray-900 text-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                {selectedCategory ? categories.find(c => c.$id === selectedCategory)?.Category_Name : "Select Category"}
+                {selectedCategory ? categories.find(c => c.Category_ID === selectedCategory)?.Category_Name : "Select Category"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-gray-800 text-gray-300 shadow-lg rounded-md p-2 mt-2 w-full">
                 <DropdownMenuLabel className="text-gray-400 font-semibold">Select Category</DropdownMenuLabel>
@@ -167,7 +189,7 @@ export default function EditProduct() {
                   <DropdownMenuItem
                     key={category.$id}
                     className="p-2 hover:bg-gray-700 cursor-pointer"
-                    onSelect={() => handleCategorySelect(category.$id)}
+                    onSelect = {() => handleCategorySelect(category.Category_ID)}
                   >
                     {category.Category_Name}
                   </DropdownMenuItem>
