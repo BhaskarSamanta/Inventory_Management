@@ -95,21 +95,25 @@ function AddOrderDetail() {
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-semibold mt-8 mb-4">Add Purchase Order Detail</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <Form onSubmit={handleSubmit(handleAddOrderDetail)} className="space-y-4">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-2xl font-semibold mb-6 text-gray-800">Add Purchase Order Detail</h1>
+      {errors && <p className="text-red-500 mb-4">{errors.message}</p>}
+      <form onSubmit={handleSubmit(handleAddOrderDetail)} className="space-y-6 bg-white p-6 rounded-lg shadow-lg">
         <div>
-          <label className="block mb-2">Product</label>
+          <label className="block text-gray-700 mb-2">Product</label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="w-full p-3 bg-gray-200 border border-gray-300 rounded">
+              <button className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md text-left focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 {selectedProduct ? products.find(p => p.$id === selectedProduct)?.Product_Name : 'Select a Product'}
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white shadow-lg rounded-md p-1">
+            <DropdownMenuContent className="bg-white shadow-lg rounded-md p-1 mt-1">
               {products.map((product) => (
-                <DropdownMenuItem key={product.$id} onClick={() => handleProductSelect(product.$id)} className="cursor-pointer p-2 hover:bg-gray-100 rounded-md">
+                <DropdownMenuItem 
+                  key={product.$id} 
+                  onClick={() => handleProductSelect(product.$id)} 
+                  className="cursor-pointer p-2 hover:bg-gray-100 rounded-md"
+                >
                   {product.Product_Name}
                 </DropdownMenuItem>
               ))}
@@ -121,7 +125,7 @@ function AddOrderDetail() {
           {errors.Product_ID && <span className="text-red-500">Product is required.</span>}
         </div>
         <div>
-          <label className="block mb-2">Quantity</label>
+          <label className="block text-gray-700 mb-2">Quantity</label>
           <Input
             type="number"
             value={quantity}
@@ -129,13 +133,13 @@ function AddOrderDetail() {
               setQuantity(e.target.value);
               setValue('Quantity', e.target.value);
             }}
-            className="w-full p-3 bg-gray-200 border border-gray-300 rounded"
+            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             {...register('Quantity', { required: true, min: 1 })}
           />
           {errors.Quantity && <span className="text-red-500">Quantity is required and should be at least 1.</span>}
         </div>
         <div>
-          <label className="block mb-2">Unit Price</label>
+          <label className="block text-gray-700 mb-2">Unit Price</label>
           <Input
             type="number"
             step="0.01"
@@ -144,27 +148,27 @@ function AddOrderDetail() {
               setUnitPrice(e.target.value);
               setValue('Unit_Price', e.target.value);
             }}
-            className="w-full p-3 bg-gray-200 border border-gray-300 rounded"
+            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             {...register('Unit_Price', { required: true, min: 0 })}
           />
           {errors.Unit_Price && <span className="text-red-500">Unit price is required and should be at least 0.</span>}
         </div>
         <div>
-          <label className="block mb-2">Total Price</label>
+          <label className="block text-gray-700 mb-2">Total Price</label>
           <Input
             type="number"
             step="0.01"
             value={totalPrice}
             onChange={(e) => setTotalPrice(e.target.value)}
-            className="w-full p-3 bg-gray-200 border border-gray-300 rounded"
+            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             required
             readOnly
             {...register('Total_Price', { required: true })}
           />
           {errors.Total_Price && <span className="text-red-500">Total price is required.</span>}
         </div>
-        <Button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded">Add Order Detail</Button>
-      </Form>
+        <Button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition ease-in-out duration-150">Add Order Detail</Button>
+      </form>
     </div>
   );
 }
