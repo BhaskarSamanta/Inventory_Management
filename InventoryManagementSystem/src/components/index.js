@@ -3,7 +3,7 @@ import {Button} from "./ui/button";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import SideBar from "./sideBar/SideBar";
-import Home from "./Home/Home";
+import Home from "../pages/Home";
 import Signup from "./SignupAndLogin/Signup";
 import Login from "./SignupAndLogin/Login";
 import DashBoard from "./Dashboard/Dashboard.jsx";
