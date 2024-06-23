@@ -1,9 +1,30 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTachometerAlt, FaBoxOpen, FaUsers } from 'react-icons/fa'; 
+import authService from '../../appwrite/auth';
 
 export default function Sidebar() {
+
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const fetchUser = async () => {
+      try {
+        const response = await authService.getCurrentUser();
+        if (response) {
+          setUser(response);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Appwrite serive :: fetchUser :: error",error);
+      }
+    }
+
+    fetchUser();
+
+  },[navigate])
 
   const sidebarItems = [
     {
@@ -23,7 +44,7 @@ export default function Sidebar() {
     }
   ];
 
-  return (
+  return user? (
     <div className='fixed left-0 top-0 h-full bg-gray-800 text-white shadow-lg w-16 flex flex-col items-center py-4'>
       {sidebarItems.map((item) => (
         <button
@@ -36,5 +57,5 @@ export default function Sidebar() {
         </button>
       ))}
     </div>
-  );
+  ) : null
 }
