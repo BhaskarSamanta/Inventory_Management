@@ -4,7 +4,7 @@ import authService from "@/appwrite/auth";
 import { useNavigate } from "react-router-dom";
 import { ID } from "appwrite";
 import { useForm } from "react-hook-form";
-import { Input, Form, Button } from "../index";
+import { Input, Button } from "../index";
 import { Query } from "appwrite";
 import {
   DropdownMenu,
@@ -76,7 +76,7 @@ function AddOrder() {
 
   return (
     <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-      <Form onSubmit={handleSubmit(addNewOrder)} className="p-6">
+      <form onSubmit={handleSubmit(addNewOrder)} className="p-6">
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-900 dark:text-white">
             Order Date
@@ -121,7 +121,7 @@ function AddOrder() {
         <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg">
           Add Order
         </Button>
-      </Form>
+      </form>
       {error && <div className="text-red-500 mt-2 p-3">{error}</div>}
     </div>
   );

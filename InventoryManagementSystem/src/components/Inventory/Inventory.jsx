@@ -96,16 +96,26 @@ export default function Inventory() {
   return (
     <div className="p-6 bg-gray-800 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">Inventory</h2>
+
+    {/* Add product button */}
+
+    <Button
+      className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+      onClick={() => navigate('/Items/add')}
+    >
+      Add New Product
+    </Button>
+
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : products.length === 0 ? (
         <p className="text-center">
-          No products available. <button className="text-blue-500" onClick={() => navigate('/add-product')}>Add a product</button>
+          No products available. <Button className="text-blue-500" onClick={() => navigate('/add-product')}>Add a product</Button>
         </p>
       ) : (
-        <Table className="min-w-full bg-gray-700 rounded-md shadow-md">
+        <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-md shadow-md">
           <TableHeader>
             <TableRow>
               <TableHead className="p-4 border-b border-gray-600">Product Name</TableHead>
@@ -127,7 +137,7 @@ export default function Inventory() {
                 <TableCell className="p-4 border-b border-gray-600">
                   <Button
                     className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                    onClick={() => navigate(`/EditItems/${product.Product_ID}`)}
+                    onClick={() => navigate(`/EditItemsPage/${product.Product_ID}`)}
                   >
                     Edit
                   </Button>

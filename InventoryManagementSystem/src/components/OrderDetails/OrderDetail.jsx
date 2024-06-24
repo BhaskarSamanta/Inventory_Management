@@ -10,7 +10,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "../ui/form";
+} from "../ui/table.jsx";
 import { Button } from "../ui/button";
 
 function OrderDetail() {
@@ -76,6 +76,16 @@ function OrderDetail() {
       <h1 className="text-2xl font-semibold mb-6 text-gray-800">
         Order Details
       </h1>
+      <Button
+        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+        onClick={() =>
+          navigate(
+            "/InventoryManagementSystem/src/pages/orderDetails/AddOrderDetailsPage.jsx"
+          )
+        }
+      >
+        Add New OrderDetails
+      </Button>
       {isLoading ? (
         <p className="text-gray-500">Loading order details...</p>
       ) : error ? (

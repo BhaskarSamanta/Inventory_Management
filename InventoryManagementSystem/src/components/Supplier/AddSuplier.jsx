@@ -89,12 +89,12 @@ function AddSuplier() {
           )}
         </div>
 
-        <Button
+        <button
           type="submit"
           className="w-full py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
         >
           Submit
-        </Button>
+        </button>
       </Form>
     </div>
   )

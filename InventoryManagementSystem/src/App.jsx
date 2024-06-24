@@ -1,14 +1,38 @@
-import React from 'react'
-import { DashBoard, AddItems, Header } from './components'
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import authService from "./appwrite/auth";
+import { login, logout } from "./store/authSlice";
+import { Footer, Header, SideBar } from "./components";
+import { Outlet } from "react-router-dom";
+
 function App() {
-  return (
-    <div>
-      <div className="App">
-            <main className="p-4">
-                <AddItems />
-            </main>
-        </div>
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authService
+      .getCurrentUser()
+      .then((userData) => {
+        if (userData) {
+          dispatch(login(userData));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  return !isLoading ? (
+    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
+      <div className="w-full block">
+        <Header />
+        <SideBar />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
-  )
+  ) : null;
 }
-export default App
+export default App;

@@ -64,6 +64,7 @@ export default function Signup() {
         <Button
           type='submit'
           className='w-full py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
+          navigate='/DashBoardPage.jsx'
           disabled={loading}
         >
           {loading ? 'Signing up...' : 'Signup'}

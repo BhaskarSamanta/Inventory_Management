@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import appwriteService from '../../appwrite/config';
-import authService from '@/appwrite/auth';
-import { Query } from 'appwrite';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../ui/form.jsx';
-import { Button } from '../ui/button';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import appwriteService from "../../appwrite/config";
+import authService from "@/appwrite/auth";
+import { Query } from "appwrite";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "../ui/table.jsx";
+import { Button } from "../ui/button";
 
 function Order() {
   const navigate = useNavigate();
@@ -20,7 +27,9 @@ function Order() {
       try {
         const currentUser = await authService.getCurrentUser();
         if (!currentUser) {
-          navigate('/Login');
+          navigate(
+            "/InventoryManagementSystem/src/pages/SignupAndLogin/LoginPage.jsx"
+          );
         } else {
           setUser(currentUser);
         }
@@ -37,18 +46,26 @@ function Order() {
       try {
         if (user) {
           // Fetch orders
-          const ordersResponse = await appwriteService.getPurchaseOrders(Query.equal("User_ID", [user?.$id]));
+          const ordersResponse = await appwriteService.getPurchaseOrders(
+            Query.equal("User_ID", [user?.$id])
+          );
           const ordersData = ordersResponse.documents;
 
           // Extract unique supplier IDs
-          const supplierIds = [...new Set(ordersData.map(order => order.supplier_Id))];
+          const supplierIds = [
+            ...new Set(ordersData.map((order) => order.supplier_Id)),
+          ];
 
           // Fetch suppliers
           const suppliersData = {};
-          await Promise.all(supplierIds.map(async (supplierId) => {
-            const supplierResponse = await appwriteService.getSupplier(supplierId);
-            suppliersData[supplierId] = supplierResponse;
-          }));
+          await Promise.all(
+            supplierIds.map(async (supplierId) => {
+              const supplierResponse = await appwriteService.getSupplier(
+                supplierId
+              );
+              suppliersData[supplierId] = supplierResponse;
+            })
+          );
 
           setOrders(ordersData);
           setSuppliers(suppliersData);
@@ -76,6 +93,16 @@ function Order() {
   return (
     <div className="container mx-auto">
       <h1 className="text-2xl font-semibold mt-8 mb-4">Orders</h1>
+      <Button
+        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+        onClick={() =>
+          navigate(
+            "/InventoryManagementSystem/src/pages/order/AddOrderPage.jsx"
+          )
+        }
+      >
+        Add New Product
+      </Button>
       {isLoading ? (
         <p className="text-gray-600">Loading...</p>
       ) : (
@@ -97,9 +124,16 @@ function Order() {
                 <TableCell>{order.Order_Date}</TableCell>
                 <TableCell>{order.Total_Amount}</TableCell>
                 <TableCell>{order.Order_Status}</TableCell>
-                <TableCell>{suppliers[order.supplier_Id]?.Supplier_Name || 'Unknown'}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleDelete(order.$id)} variant="danger">Delete</Button>
+                  {suppliers[order.supplier_Id]?.Supplier_Name || "Unknown"}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => handleDelete(order.$id)}
+                    variant="danger"
+                  >
+                    Delete
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

@@ -31,7 +31,7 @@ export default function Header() {
     },
     {
       name: 'Items',
-      path: '/items',
+      path: '/Items',
       active: authStatus
     },
     {

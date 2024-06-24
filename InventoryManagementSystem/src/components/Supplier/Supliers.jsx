@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import appwriteService from '../../appwrite/config.js'
-import { useNavigate } from 'react-router-dom'
-import authService from '../../appwrite/auth.js'
+import React, { useState, useEffect } from "react";
+import appwriteService from "../../appwrite/config.js";
+import { useNavigate } from "react-router-dom";
+import authService from "../../appwrite/auth.js";
+import { Button } from "../index.js";
 import {
   Table,
   TableHeader,
@@ -9,57 +10,72 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '../ui/form.jsx'
-import { Query } from 'appwrite'
+} from "../ui/table.jsx";
+import { Query } from "appwrite";
 
 function Supliers() {
-
-  const navigate = useNavigate()
-  const [user, setUser] = useState(null)
-  const [supliers, setSupliers] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [supliers, setSupliers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchUser = async () => {
     try {
       const currentUser = await authService.getCurrentUser();
-      if(currentUser){
+      if (currentUser) {
         setUser(currentUser);
-        fetchSupliers(user.$id);
-      }else{
-        navigate('/Login');
+        fetchSupliers(currentUser.$id);
+      } else {
+        navigate("/Login");
       }
     } catch (error) {
-      throw ("Appwrite serive :: fetchUser :: error",error);
+      setError(error)
+      throw ("Appwrite serive :: fetchUser :: error", error);
     }
-  }
+  };
 
   const fetchSupliers = async (userID) => {
     try {
-      const supliers = await appwriteService.getSuppliers(Query.equal("User_ID", [userID]));
+      const supliers = await appwriteService.getSuppliers(
+        Query.equal("User_ID", [userID])
+      );
       setSupliers(supliers);
       setIsLoading(false);
     } catch (error) {
-      throw ("Appwrite serive :: fetchSupliers :: error",error);
+      throw ("Appwrite serive :: fetchSupliers :: error", error);
     }
-  }
+  };
 
   const deleteSuplier = async (supplierID) => {
     try {
       await appwriteService.deleteSupplier(supplierID);
       fetchSupliers();
     } catch (error) {
-      throw ("Appwrite serive :: deleteSupplier :: error",error);
+      throw ("Appwrite serive :: deleteSupplier :: error", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchUser();
-  }, [])
+  }, []);
 
-  return (
+  return supliers ? (
     <div className="container mx-auto my-8">
       <h2 className="text-2xl font-semibold mb-4 text-center">Suppliers</h2>
-      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+      <Button
+        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+        onClick={() =>
+          navigate(
+            "/suppliers/add"
+          )
+        }
+      >
+        Add New Supplier
+      </Button>
+      {isLoading && <div className="text-center">Loading suppliers...</div>}
+
+      {/* {error && <div className="text-red-500 text-center mb-4">error</div>} */}
       <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <TableHeader className="bg-gray-800 text-white">
           <TableRow>
@@ -94,7 +110,7 @@ function Supliers() {
         </TableBody>
       </Table>
     </div>
-  )
+  ): (<h1><Button onClick={() => navigate('/suppliers/add')}>Add Suppliers</Button></h1>)
 }
 
-export default Supliers
+export default Supliers;

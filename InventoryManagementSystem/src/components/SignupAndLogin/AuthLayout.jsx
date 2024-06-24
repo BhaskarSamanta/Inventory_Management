@@ -11,13 +11,13 @@ export default function AuthLayout({ children, authentication=true }) {
 
     useEffect(() => {
         if (authentication && authStatus !== authentication ) {
-            navigate('/Login')
+            navigate('/InventoryManagementSystem/src/pages/SignupAndLogin/LoginPage.jsx')
         }else if(!authentication && authStatus !== authentication){
             navigate('/')
         }
         setLoader(false)
     },[authStatus,authentication,navigate])
 
-  return loader ? <h1>Loading...</h1> : {children}
+  return loader ? <h1>Loading...</h1> : children
 }
 

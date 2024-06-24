@@ -4,7 +4,7 @@ import appwriteService from '@/appwrite/config';
 import { useNavigate } from 'react-router-dom';
 import { ID } from 'appwrite';
 import { useForm } from 'react-hook-form';
-import { Input, Form, Button } from '../index';
+import { Input, Button } from '../index';
 
 export default function AddCategorie() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function AddCategorie() {
       try {
         const user = await authService.getCurrentUser();
         if (!user) {
-          navigate('/Login');
+          navigate('/InventoryManagementSystem/src/pages/SignupAndLogin/LoginPage.jsx');
         } else {
           setUser(user);
         }
@@ -46,7 +46,7 @@ export default function AddCategorie() {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-gray-900 rounded-xl shadow-md border border-gray-700">
       <h2 className="text-3xl font-semibold text-center text-white mb-6">Add New Category</h2>
-      <Form onSubmit={handleSubmit(addNewCategory)} className="space-y-6">
+      <form onSubmit={handleSubmit(addNewCategory)} className="space-y-6">
         {errors.Category_Name && (
           <div className="text-red-500 text-sm mb-4">
             Category name is required.
@@ -71,7 +71,7 @@ export default function AddCategorie() {
         >
           Add New Category
         </Button>
-      </Form>
+      </form>
     </div>
   );
 }
