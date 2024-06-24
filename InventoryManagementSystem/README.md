@@ -109,4 +109,7 @@
 
 `This Inventory Management System is designed to provide a streamlined approach to handling inventory tasks. The system is scalable and easily extendable to include additional functionalities as required. Ensure regular updates and maintenance to keep the system running smoothly.`
 
+# TODO: 
+`Debug the edit supliers Page`
+
 
