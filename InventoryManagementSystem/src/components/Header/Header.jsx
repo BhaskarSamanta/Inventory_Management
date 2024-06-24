@@ -39,6 +39,11 @@ export default function Header() {
       path: '/suppliers',
       active: authStatus
     },   
+    {
+      name: 'Categories',
+      path: '/catagory',
+      active: authStatus
+    }
   ]
 
   return (

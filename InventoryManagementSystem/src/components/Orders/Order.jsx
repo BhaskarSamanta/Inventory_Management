@@ -28,7 +28,7 @@ function Order() {
         const currentUser = await authService.getCurrentUser();
         if (!currentUser) {
           navigate(
-            "/InventoryManagementSystem/src/pages/SignupAndLogin/LoginPage.jsx"
+            "/login"
           );
         } else {
           setUser(currentUser);

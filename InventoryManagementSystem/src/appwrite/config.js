@@ -14,13 +14,14 @@ export class AppwriteService{
         this.bucket = new Storage(this.client);
     }
 
-     async addProduct ({Product_Name, Product_ID, User_ID, Price, Description, Stock_Qty, Supplier_ID,Category_ID}) {
+     async addProduct (Product_ID, {Product_Name, User_ID, Price, Description, Stock_Qty, Supplier_ID,Category_ID}) {
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId, 
                 conf.appwrite_Product_CollectionId, 
                 Product_ID,
                 {
+                    Product_ID,
                     Product_Name, 
                     Price, 
                     Description,
@@ -88,21 +89,21 @@ export class AppwriteService{
             throw ("Appwrite serive :: getProducts :: error",error);
         }
     }
-    async addCatagory({Category_Name, Category_ID, User_ID}) {
+    async addCatagory(Category_ID,{Category_Name, User_ID }) {
         try {
-            return await this.databases.createDocument(
-               conf.appwrite_DatabaseId,
-               conf.appwrite_Category_CollectionId,
-                { 
+            const response = await this.databases.createDocument(
+                conf.appwrite_DatabaseId,
+                conf.appwrite_Category_CollectionId,
+                Category_ID,
+                {
                     Category_ID,
                     Category_Name,
                     User_ID
-            }
-
-
-            )
+                }
+            );
+            return response; // Return the response object if needed
         } catch (error) {
-            throw ("Appwrite serive :: addCatagory :: error",error);
+            throw new Error(`Appwrite service :: addCatagory :: error - ${error.message}`);
         }
     }
 
@@ -173,24 +174,20 @@ export class AppwriteService{
         }
     }
 
-    async updateSupplier({Supplier_ID, Supplier_Name, Address, Contact,User_ID}){
-
+    
+    async updateSupplier(documentId, { Supplier_Name, Address, Contact }) {
+        if (!documentId || typeof documentId !== 'string' || documentId.length > 36) {
+            throw new Error('Invalid documentId');
+        }
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_DatabaseId,
                 conf.appwrite_Supplier_CollectionId,
-                
-                {
-                    Supplier_ID,
-                    Supplier_Name,
-                    Address,
-                    Contact,
-                    User_ID
-                }
-
-            )
+                documentId,
+                { Supplier_Name, Address, Contact }
+            );
         } catch (error) {
-            throw ("Appwrite serive :: updateSupplier :: error",error);
+            throw new Error(`Appwrite service :: updateSupplier :: error: ${error.message}`);
         }
     }
 

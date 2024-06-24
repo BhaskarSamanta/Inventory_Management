@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import appwriteService from "../../appwrite/config.js";
 import { useNavigate } from "react-router-dom";
 import authService from "../../appwrite/auth.js";
+import { Query } from "appwrite";
 import { Button } from "../index.js";
 import {
   Table,
@@ -11,7 +12,6 @@ import {
   TableHead,
   TableCell,
 } from "../ui/table.jsx";
-import { Query } from "appwrite";
 
 function Suppliers() {
   const navigate = useNavigate();
