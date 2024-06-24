@@ -142,21 +142,22 @@ export class AppwriteService{
         }
     }
 
-    async addSupplier(Supplier_ID,{Supplier_Name, Address, Contact,User_ID}){
+    async addSupplier(Supplier_ID, { Supplier_Name, Address, Contact, User_ID }) {
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
                 conf.appwrite_Supplier_CollectionId,
                 Supplier_ID,
                 {
+                    Supplier_ID, 
                     Supplier_Name,
                     Address,
                     Contact,
                     User_ID
                 }
-            )
+            );
         } catch (error) {
-            throw ("Appwrite serive :: addSupplier :: error",error);
+            throw ("Appwrite service :: addSupplier :: error", error);
         }
     }
 
@@ -172,17 +173,19 @@ export class AppwriteService{
         }
     }
 
-    async updateSupplier(Supplier_ID,{Supplier_Name, Address, Contact}){
+    async updateSupplier({Supplier_ID, Supplier_Name, Address, Contact,User_ID}){
 
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_DatabaseId,
                 conf.appwrite_Supplier_CollectionId,
-                Supplier_ID,
+                
                 {
+                    Supplier_ID,
                     Supplier_Name,
                     Address,
                     Contact,
+                    User_ID
                 }
 
             )

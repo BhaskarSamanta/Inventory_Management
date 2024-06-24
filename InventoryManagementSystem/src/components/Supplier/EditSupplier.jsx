@@ -1,85 +1,226 @@
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import appwriteService from '../../appwrite/config';
+// import { Button, Input } from '../index'; // Adjust this import according to your project structure
+
+// export default function EditSupplier() {
+//     const navigate = useNavigate();
+//     const { id } = useParams(); // Get supplier ID from URL
+//     const [supplier, setSupplier] = useState(null);
+//     const [isLoading, setIsLoading] = useState(true);
+//     const [error, setError] = useState(null);
+//     const [formData, setFormData] = useState({
+//         Supplier_Name: '',
+//         Address: '',
+//         Contact: ''
+//     });
+
+//     useEffect(() => {
+//         const fetchSupplier = async (supplierId) => {
+//             setIsLoading(true);
+//             try {
+//                 const thisSupplier = await appwriteService.getSupplier(supplierId);
+//                 setSupplier(thisSupplier);
+//                 setFormData({
+//                     Supplier_Name: thisSupplier.Supplier_Name,
+//                     Address: thisSupplier.Address,
+//                     Contact: thisSupplier.Contact,
+//                 });
+//                 setIsLoading(false);
+//             } catch (error) {
+//                 console.error("Appwrite service :: fetchSupplier :: error", error);
+//                 setError('Failed to fetch supplier details.');
+//                 setIsLoading(false);
+//             }
+//         };
+
+//         fetchSupplier(id);
+//     }, [id]);
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData({
+//             ...formData,
+//             [name]: value
+//         });
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault(); // Prevent form from submitting the default way
+//         try {
+//             await appwriteService.updateSupplier(id, formData);
+//             alert('Supplier updated successfully!');
+//             navigate('/suppliers');
+//         } catch (error) {
+//             console.error("Appwrite service :: handleSubmit :: error", error);
+//             setError('Failed to update supplier. Please try again.');
+//         }
+//     };
+
+//     if (isLoading) return <div>Loading...</div>;
+
+//     if (error) return <div className="text-red-500">{error}</div>;
+
+//     return (
+//         <div className="container mx-auto my-8 px-4">
+//             <h2 className="text-2xl font-semibold mb-4 text-center">Edit Supplier</h2>
+//             <form onSubmit={handleSubmit}>
+//                 <div className="mb-4">
+//                     <label htmlFor="Supplier_Name" className="block text-gray-700">Supplier Name</label>
+//                     <Input
+//                         type="text"
+//                         name="Supplier_Name"
+//                         id="Supplier_Name"
+//                         value={formData.Supplier_Name}
+//                         onChange={handleChange}
+//                         className="mt-2 p-2 border rounded w-full"
+//                         required
+//                     />
+//                 </div>
+//                 <div className="mb-4">
+//                     <label htmlFor="Address" className="block text-gray-700">Address</label>
+//                     <Input
+//                         type="text"
+//                         name="Address"
+//                         id="Address"
+//                         value={formData.Address}
+//                         onChange={handleChange}
+//                         className="mt-2 p-2 border rounded w-full"
+//                         required
+//                     />
+//                 </div>
+//                 <div className="mb-4">
+//                     <label htmlFor="Contact" className="block text-gray-700">Contact</label>
+//                     <Input
+//                         type="text"
+//                         name="Contact"
+//                         id="Contact"
+//                         value={formData.Contact}
+//                         onChange={handleChange}
+//                         className="mt-2 p-2 border rounded w-full"
+//                         required
+//                     />
+//                 </div>
+//                 <Button type="submit" className="bg-blue-500 text-white p-2 rounded">Update Supplier</Button>
+//             </form>
+//         </div>
+//     );
+// }
+
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';  
-import appwriteService from '../../appwrite/config';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Input } from '../index';
-import { Form, FormItem, FormLabel, FormControl, FormMessage } from '../ui/form';
+import appwriteService from '../../appwrite/config';
+import { Button, Input } from '../index'; // Adjust this import according to your project structure
 
 export default function EditSupplier() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [supplier, setSupplier] = useState(null);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({
+        Supplier_Name: '',
+        Address: '',
+        Contact: ''
+    });
 
     useEffect(() => {
         const fetchSupplier = async (supplierId) => {
+            setIsLoading(true);
             try {
                 const thisSupplier = await appwriteService.getSupplier(supplierId);
                 setSupplier(thisSupplier);
+                setFormData({
+                    Supplier_Name: thisSupplier.Supplier_Name,
+                    Address: thisSupplier.Address,
+                    Contact: thisSupplier.Contact,
+                });
+                setIsLoading(false);
             } catch (error) {
                 console.error("Appwrite service :: fetchSupplier :: error", error);
+                setError('Failed to fetch supplier details.');
+                setIsLoading(false);
             }
         };
 
         fetchSupplier(id);
     }, [id]);
 
-    const onSubmit = async (data) => {
-        try {
-            await appwriteService.updateSupplier(id, {
-                Supplier_Name: data.Supplier_Name,
-                Address: data.Address,
-                Contact: data.Contact,
-            });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!isValidDocumentId(id)) {
+            setError('Invalid supplier ID format.');
+            return;
+        }
+        try {
+            await appwriteService.updateSupplier(id, formData);
             alert('Supplier updated successfully!');
             navigate('/suppliers');
         } catch (error) {
-            console.error("Appwrite service :: onSubmit :: error", error);
+            console.error("Appwrite service :: handleSubmit :: error", error);
+            setError('Failed to update supplier. Please try again.');
         }
     };
 
+    const isValidDocumentId = (id) => {
+        const validIdPattern = /^[a-zA-Z0-9]{1,36}$/;
+        return validIdPattern.test(id);
+    };
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (error) return <div className="text-red-500">{error}</div>;
+
     return (
-        <div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <FormItem id="Supplier_Name" className="space-y-2">
-                    <FormLabel>Supplier Name</FormLabel>
-                    <FormControl>
-                        <Input
-                            type="text"
-                            placeholder="Supplier Name"
-                            defaultValue={supplier?.Supplier_Name || ''}
-                            {...register('Supplier_Name', { required: 'Supplier Name is required' })}
-                        />
-                    </FormControl>
-                    <FormMessage>{errors.Supplier_Name && errors.Supplier_Name.message}</FormMessage>
-                </FormItem>
-                <FormItem id="Address" className="space-y-2">
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                        <Input
-                            type="text"
-                            placeholder="Address"
-                            defaultValue={supplier?.Address || ''}
-                            {...register('Address', { required: 'Address is required' })}
-                        />
-                    </FormControl>
-                    <FormMessage>{errors.Address && errors.Address.message}</FormMessage>
-                </FormItem>
-                <FormItem id="Contact" className="space-y-2">
-                    <FormLabel>Contact</FormLabel>
-                    <FormControl>
-                        <Input
-                            type="text"
-                            placeholder="Contact"
-                            defaultValue={supplier?.Contact || ''}
-                            {...register('Contact', { required: 'Contact is required' })}
-                        />
-                    </FormControl>
-                    <FormMessage>{errors.Contact && errors.Contact.message}</FormMessage>
-                </FormItem>
-                <Button type="submit">Update Supplier</Button>
-            </Form>
+        <div className="container mx-auto my-8 px-4">
+            <h2 className="text-2xl font-semibold mb-4 text-center">Edit Supplier</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="Supplier_Name" className="block text-gray-700">Supplier Name</label>
+                    <Input
+                        type="text"
+                        name="Supplier_Name"
+                        id="Supplier_Name"
+                        value={formData.Supplier_Name}
+                        onChange={handleChange}
+                        className="mt-2 p-2 border rounded w-full"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="Address" className="block text-gray-700">Address</label>
+                    <Input
+                        type="text"
+                        name="Address"
+                        id="Address"
+                        value={formData.Address}
+                        onChange={handleChange}
+                        className="mt-2 p-2 border rounded w-full"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="Contact" className="block text-gray-700">Contact</label>
+                    <Input
+                        type="text"
+                        name="Contact"
+                        id="Contact"
+                        value={formData.Contact}
+                        onChange={handleChange}
+                        className="mt-2 p-2 border rounded w-full"
+                        required
+                    />
+                </div>
+                <Button type="submit" className="bg-blue-500 text-white p-2 rounded">Update Supplier</Button>
+            </form>
         </div>
     );
 }

@@ -21,7 +21,7 @@ export default function Login() {
         const userData = await authService.getCurrentUser();
         if(userData) {
           dispatch(authLogin(userData));
-          navigate("/Products");
+          navigate("/dashboard");
         }
       } 
     } catch (error) {

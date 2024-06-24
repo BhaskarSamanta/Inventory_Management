@@ -13,10 +13,10 @@ import {
 } from "../ui/table.jsx";
 import { Query } from "appwrite";
 
-function Supliers() {
+function Suppliers() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [supliers, setSupliers] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,34 +25,39 @@ function Supliers() {
       const currentUser = await authService.getCurrentUser();
       if (currentUser) {
         setUser(currentUser);
-        fetchSupliers(currentUser.$id);
+        fetchSuppliers(currentUser.$id);
       } else {
         navigate("/Login");
       }
     } catch (error) {
-      setError(error)
-      throw ("Appwrite serive :: fetchUser :: error", error);
+      setError("Error fetching user information. Please try again.");
+      console.error("Appwrite service :: fetchUser :: error", error);
     }
   };
 
-  const fetchSupliers = async (userID) => {
+  const fetchSuppliers = async (userID) => {
     try {
-      const supliers = await appwriteService.getSuppliers(
-        Query.equal("User_ID", [userID])
-      );
-      setSupliers(supliers);
+      const query = Query.equal("User_ID", userID); // Create a single query object
+      const suppliers = await appwriteService.getSuppliers([query]); // Pass query inside an array
+      setSuppliers(suppliers.documents);
       setIsLoading(false);
+      setError(null); // Reset error state on success
     } catch (error) {
-      throw ("Appwrite serive :: fetchSupliers :: error", error);
+      setError("Error fetching suppliers. Please try again.");
+      console.error("Appwrite service :: fetchSuppliers :: error", error);
+      setIsLoading(false);
     }
   };
+  
 
-  const deleteSuplier = async (supplierID) => {
+  const deleteSupplier = async (supplierID) => {
     try {
       await appwriteService.deleteSupplier(supplierID);
-      fetchSupliers();
+      fetchSuppliers(user.$id); // Refetch suppliers after successful deletion
+      setError(null); // Reset error state on success
     } catch (error) {
-      throw ("Appwrite serive :: deleteSupplier :: error", error);
+      setError("Error deleting supplier. Please try again.");
+      console.error("Appwrite service :: deleteSupplier :: error", error);
     }
   };
 
@@ -60,57 +65,62 @@ function Supliers() {
     fetchUser();
   }, []);
 
-  return supliers ? (
-    <div className="container mx-auto my-8">
+  return (
+    <div className="container mx-auto my-8 px-4">
       <h2 className="text-2xl font-semibold mb-4 text-center">Suppliers</h2>
-      <Button
-        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
-        onClick={() =>
-          navigate(
-            "/suppliers/add"
-          )
-        }
-      >
-        Add New Supplier
-      </Button>
+
+      {/* Display loading message if suppliers are being fetched */}
       {isLoading && <div className="text-center">Loading suppliers...</div>}
 
-      {/* {error && <div className="text-red-500 text-center mb-4">error</div>} */}
-      <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <TableHeader className="bg-gray-800 text-white">
-          <TableRow>
-            <TableHead className="p-4 text-left">Supplier Name</TableHead>
-            <TableHead className="p-4 text-left">Address</TableHead>
-            <TableHead className="p-4 text-left">Contact</TableHead>
-            <TableHead className="p-4 text-center">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {supliers.map((supplier) => (
-            <TableRow key={supplier.$id} className="border-b hover:bg-gray-100">
-              <TableCell className="p-4">{supplier.Supplier_Name}</TableCell>
-              <TableCell className="p-4">{supplier.Address}</TableCell>
-              <TableCell className="p-4">{supplier.Contact}</TableCell>
-              <TableCell className="p-4 text-center">
-                <Button
-                  onClick={() => navigate(`/EditSupplier/${supplier.$id}`)}
-                  className="text-blue-500 hover:text-blue-700 transition duration-200"
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => deleteSuplier(supplier.$id)}
-                  className="text-red-500 hover:text-red-700 transition duration-200"
-                >
-                  Delete
-                </Button>
-              </TableCell>
+      {/* Display error message if there is any */}
+      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+
+      <div className="flex justify-between items-center mb-4">
+        <Button
+          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
+          onClick={() => navigate("/suppliers/add")}
+        >
+          Add New Supplier
+        </Button>
+      </div>
+
+      <div className="overflow-x-auto">
+        <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <TableHeader className="bg-gray-800 text-white">
+            <TableRow>
+              <TableHead className="p-4 text-left">Supplier Name</TableHead>
+              <TableHead className="p-4 text-left">Address</TableHead>
+              <TableHead className="p-4 text-left">Contact</TableHead>
+              <TableHead className="p-4 text-center">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {suppliers.map((supplier) => (
+              <TableRow key={supplier.$id} className="border-b hover:bg-gray-100">
+                <TableCell className="p-4">{supplier.Supplier_Name}</TableCell>
+                <TableCell className="p-4">{supplier.Address}</TableCell>
+                <TableCell className="p-4">{supplier.Contact}</TableCell>
+                <TableCell className="p-4 text-center">
+                  <Button
+                    onClick={() => navigate(`/suppliers/edit/${supplier.$id}`)}
+                    className="text-blue-500 hover:text-blue-700 transition duration-200 mr-2"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => deleteSupplier(supplier.$id)}
+                    className="text-red-500 hover:text-red-700 transition duration-200"
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
-  ): (<h1><Button onClick={() => navigate('/suppliers/add')}>Add Suppliers</Button></h1>)
+  );
 }
 
-export default Supliers;
+export default Suppliers;
