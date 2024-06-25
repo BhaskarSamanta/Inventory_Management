@@ -46,23 +46,39 @@ export default function Inventory() {
       try {
         const query = Query.equal('User_ID', userId);
 
-        // Fetch products
-        const productsResponse = await appwriteService.getProducts([query]);
+        // Fetch products, suppliers, and categories concurrently
+        const [productsResponse, suppliersResponse, categoriesResponse] = await Promise.all([
+          appwriteService.getProducts([query]),
+          appwriteService.getSuppliers([query]),
+          appwriteService.getCatagories([query])
+        ]);
+
+        // Log responses for debugging
+        console.log('Products Response:', productsResponse);
+        console.log('Suppliers Response:', suppliersResponse);
+        console.log('Categories Response:', categoriesResponse);
+
+        // Process products
         const productsData = productsResponse.documents;
 
-        // Fetch suppliers and categories
-        const suppliersResponse = await appwriteService.getSuppliers([query]);
-        const categoriesResponse = await appwriteService.getCatagories([query]);
+        // Log product supplier and category IDs
+        productsData.forEach(product => {
+          console.log(`Product ID: ${product.$id}, Supplier ID: ${product.Supplier_ID}, Category ID: ${product.Category_ID}`);
+        });
 
+        // Process suppliers
         const suppliersData = suppliersResponse.documents.reduce((acc, supplier) => {
           acc[supplier.$id] = supplier.Supplier_Name;
           return acc;
         }, {});
+        console.log('Mapped Suppliers:', suppliersData);
 
+        // Process categories
         const categoriesData = categoriesResponse.documents.reduce((acc, category) => {
           acc[category.$id] = category.Category_Name;
           return acc;
         }, {});
+        console.log('Mapped Categories:', categoriesData);
 
         // Update states
         setProducts(productsData);
@@ -129,18 +145,22 @@ export default function Inventory() {
                 <TableCell className="p-4 border-b border-gray-600">{product.Product_Name}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">{product.Price}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">{product.Stock_Qty}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{suppliers[product.Supplier_ID]}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{categories[product.Category_ID]}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">
+                  {suppliers[product.Supplier_ID] || 'Unknown Supplier'}
+                </TableCell>
+                <TableCell className="p-4 border-b border-gray-600">
+                  {categories[product.Category_ID] || 'Unknown Category'}
+                </TableCell>
                 <TableCell className="p-4 border-b border-gray-600">
                   <Button
                     className="bg-blue-500 text-white p-2 rounded-md mr-2"
-                    onClick={() => navigate(`/EditItemsPage/${product.$id}`)}
+                    onClick={() => navigate(`/Items/edit/${product.$id}`)}
                   >
                     Edit
                   </Button>
                   <Button
                     className="bg-red-500 text-white p-2 rounded-md"
-                    onClick={() => handleDelete(product.$id)}
+                    onClick={() => handleDelete(product.Product_ID)}
                   >
                     Delete
                   </Button>

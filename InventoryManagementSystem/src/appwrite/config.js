@@ -35,17 +35,20 @@ export class AppwriteService{
         }
     }
 
-    async updateProduct(Product_ID,{ Product_Name, Price, Stock_Qty, Description}){
+    async updateProduct(Product_ID,{Product_Name, Price, Description, Stock_Qty, Supplier_ID,Category_ID}){
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_DatabaseId,
                 conf.appwrite_Product_CollectionId,
                 Product_ID,
                 {
+                    Product_ID,
                     Product_Name, 
                     Price, 
                     Stock_Qty, 
                     Description,
+                    Supplier_ID,
+                    Category_ID
                 }
             )
         } catch (error) {
@@ -61,7 +64,7 @@ export class AppwriteService{
                 Product_ID
             )
         } catch (error) {
-            throw ("Appwrite serive :: deletePost :: error",error);         
+            throw ("Appwrite serive :: deleteProduct :: error",error);         
         }
     }
 
