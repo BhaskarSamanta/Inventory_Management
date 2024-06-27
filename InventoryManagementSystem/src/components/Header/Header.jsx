@@ -84,6 +84,7 @@ import { Container, Logo, LogoutBtn } from '../index.js';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { authenticator } from 'otplib';
 
 export default function Header() {
   const authStatus = useSelector((state) => state.auth.status);
@@ -94,7 +95,7 @@ export default function Header() {
     {
       name: 'Home',
       path: '/',
-      active: true,
+      active: !authStatus,
     },
     {
       name: 'Login',

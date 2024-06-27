@@ -94,10 +94,10 @@ function Order() {
     <div className="container mx-auto">
       <h1 className="text-2xl font-semibold mt-8 mb-4">Orders</h1>
       <Button
-        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+        className="top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
         onClick={() =>
           navigate(
-            "/InventoryManagementSystem/src/pages/order/AddOrderPage.jsx"
+            "/order/add"
           )
         }
       >
@@ -109,7 +109,7 @@ function Order() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
+              <TableHead>Product</TableHead>
               <TableHead>Order Date</TableHead>
               <TableHead>Total Amount</TableHead>
               <TableHead>Order Status</TableHead>

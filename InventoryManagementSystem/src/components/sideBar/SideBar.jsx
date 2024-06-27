@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTachometerAlt, FaBoxOpen, FaUsers } from "react-icons/fa";
+import { FaTachometerAlt, FaBoxOpen, FaUsers,  FaRocket } from "react-icons/fa";
 import authService from "../../appwrite/auth";
 
 export default function Sidebar() {
@@ -26,8 +26,8 @@ export default function Sidebar() {
 
   const sidebarItems = [
     { name: "Dashboard", path: "/dashboard", icon: <FaTachometerAlt /> },
-    { name: "Items", path: "/items", icon: <FaBoxOpen /> },
-    { name: "Suppliers", path: "/suppliers", icon: <FaUsers /> },
+    { name: "Items", path: "/Items", icon: <FaBoxOpen /> },
+    { name: "Suppliers", path: "/order", icon: <FaRocket /> },
   ];
 
   // If no user is logged in, return null to hide the sidebar

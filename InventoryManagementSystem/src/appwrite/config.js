@@ -1,3 +1,4 @@
+import { Order } from '@/components/index.js';
 import conf from '../conf/conf.js';
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
@@ -226,6 +227,7 @@ export class AppwriteService{
                 conf.appwrite_Purchase_Order_CollectionId,
                 Order_Id,
                 {
+                    Order_Id,
                     Total_Amount,
                     Order_Date,
                     supplier_Id,
