@@ -26,8 +26,8 @@ function App() {
     <div className="min-h-screen flex flex-wrap flex-col content-between bg-gray-900">
       <div className="w-full flex flex-col">
         <Header />
-        <SideBar />
         <main>
+        <SideBar />
           <Outlet />
         </main>
         <Footer />

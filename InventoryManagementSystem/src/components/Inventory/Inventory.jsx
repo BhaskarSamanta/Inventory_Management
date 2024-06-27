@@ -143,7 +143,7 @@ export default function Inventory() {
             {products.map(product => (
               <TableRow key={product.$id} className="hover:bg-gray-600">
                 <TableCell className="p-4 border-b border-gray-600">{product.Product_Name}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{product.Price}</TableCell>
+                <TableCell className="p-4 border-b border-gray-600">₹ {product.Price}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">{product.Stock_Qty}</TableCell>
                 <TableCell className="p-4 border-b border-gray-600">
                   {suppliers[product.Supplier_ID] || 'Unknown Supplier'}
