@@ -220,7 +220,7 @@ export class AppwriteService{
         }
     }
 
-    async addPurchaseOrder(Order_Id,{Total_Amount,Order_Date,supplier_Id, User_ID,Order_Statues}){
+    async addPurchaseOrder(Order_Id,{Total_Amount,Order_Date,supplier_Id, User_ID,Order_Statues,products}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
@@ -232,7 +232,8 @@ export class AppwriteService{
                     Order_Date,
                     supplier_Id,
                     User_ID,
-                    Order_Statues
+                    Order_Statues,
+                    products
                 }
             )
         } catch (error) {
