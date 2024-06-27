@@ -23,8 +23,8 @@ function App() {
   }, []);
 
   return !isLoading ? (
-    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
-      <div className="w-full block">
+    <div className="min-h-screen flex flex-wrap flex-col content-between bg-gray-900">
+      <div className="w-full flex flex-col">
         <Header />
         <SideBar />
         <main>

@@ -74,15 +74,17 @@ function Suppliers() {
 
       {/* Display error message if there is any */}
       {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-
+      {/* <div class=" bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-gray-800 text-white text-center rounded-lg p-2 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-opacity transition-transform duration-300 pointer-events-none"> */}
+   
       <div className="flex justify-between items-center mb-4">
         <Button
-          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
+          className=" bg-blue-500 text-white p-2 rounded-md hover:bg-green-600 transition"
           onClick={() => navigate("/suppliers/add")}
         >
           Add New Supplier
         </Button>
       </div>
+  {/* </div> */}
 
       <div className="overflow-x-auto">
         <Table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">

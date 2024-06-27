@@ -1,9 +1,9 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-gray-800 text-white py-8 mt-8 ">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-between">
           {/* Company Info */}
@@ -18,8 +18,8 @@ function Footer() {
             <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
             <ul className="text-gray-400">
               <li className="mb-2 hover:text-white"><a href="/">Home</a></li>
-              <li className="mb-2 hover:text-white"><a href="/about">About Us</a></li>
-              <li className="mb-2 hover:text-white"><a href="/services">Services</a></li>
+              <li className="mb-2 hover:text-white"><a href="/Items">Items</a></li>
+              <li className="mb-2 hover:text-white"><a href="/dashboard">Dashboard</a></li>
               <li className="mb-2 hover:text-white"><a href="/contact">Contact Us</a></li>
             </ul>
           </div>
@@ -34,10 +34,10 @@ function Footer() {
         </div>
         <div className="flex justify-center mt-8 space-x-6">
           {/* Social Media Icons */}
-          <a href="https://www.facebook.com" className="text-gray-400 hover:text-white"><FaFacebook size={24} /></a>
-          <a href="https://www.twitter.com" className="text-gray-400 hover:text-white"><FaTwitter size={24} /></a>
-          <a href="https://www.linkedin.com" className="text-gray-400 hover:text-white"><FaLinkedin size={24} /></a>
-          <a href="https://www.github.com" className="text-gray-400 hover:text-white"><FaGithub size={24} /></a>
+          <a href="https://www.facebook.com/vaskar.samanta.1422/" className="text-gray-400 hover:text-white"><FaFacebook size={24} /></a>
+          <a href="https://x.com/Bhaskar32894413" className="text-gray-400 hover:text-white"><FaTwitter size={24} /></a>
+          <a href="https://www.linkedin.com/in/bhaskar-samanta-657291217/" className="text-gray-400 hover:text-white"><FaLinkedin size={24} /></a>
+          <a href="https://github.com/BhaskarSamanta" className="text-gray-400 hover:text-white"><FaGithub size={24} /></a>
         </div>
         <p className="text-center text-gray-500 mt-8">
           &copy; 2024 Inventory Management System. All rights reserved.

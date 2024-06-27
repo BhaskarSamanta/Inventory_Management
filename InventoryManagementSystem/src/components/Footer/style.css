@@ -1,0 +1,29 @@
+/* App.module.css */
+
+/* Ensure HTML and body take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Main container should take full height */
+  :global(#root) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Make the main content area grow to fill the available space */
+  main {
+    flex: 1;
+  }
+  
+  /* Footer specific styles */
+  footer {
+    background-color: #2d3748; /* Replace with your footer background color */
+    color: white;
+    padding: 1rem; /* Adjust the padding as needed */
+  }
+  

@@ -108,12 +108,12 @@ export default function Inventory() {
   };
 
   return (
-    <div className="p-6 bg-gray-800 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
+    <div className="p-6 bg-gray-900 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">Inventory</h2>
 
       {/* Add product button */}
       <Button
-        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
+        className=" top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
         onClick={() => navigate('/Items/add')}
       >
         Add New Product
