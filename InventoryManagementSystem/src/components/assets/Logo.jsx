@@ -1,9 +1,10 @@
-import React from 'react'
-
+import React from "react";
 function Logo() {
   return (
-    <div>Logo</div>
-  )
+    <div>
+      <img src = './image.svg' alt="Logo" />
+    </div>
+  );
 }
 
-export default Logo
+export default Logo;
