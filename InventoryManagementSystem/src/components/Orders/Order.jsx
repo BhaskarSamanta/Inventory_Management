@@ -1,7 +1,148 @@
+// import React, { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import appwriteService from "../../appwrite/config";
+// import authService from "../../appwrite/auth";
+// import { Query } from "appwrite";
+// import {
+//   Table,
+//   TableHeader,
+//   TableBody,
+//   TableRow,
+//   TableHead,
+//   TableCell,
+// } from "../ui/table.jsx";
+// import { Button } from "../ui/button";
+
+// function Order() {
+//   const navigate = useNavigate();
+//   const [user, setUser] = useState(null);
+//   const [orders, setOrders] = useState([]);
+//   const [suppliers, setSuppliers] = useState({});
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   // Fetch the current user
+//   const fetchUser = async () => {
+//     try {
+//       const currentUser = await authService.getCurrentUser();
+//       if (currentUser) {
+//         setUser(currentUser);
+//         fetchPurchaseOrder(currentUser.$id);
+//       } else {
+//         navigate("/Login");
+//       }
+//     } catch (error) {
+//       setError("Error fetching user information. Please try again.");
+//       console.error("Appwrite service :: fetchUser :: error", error);
+//     }
+//   };    
+
+//   // Fetch orders and suppliers
+//   // useEffect(()=>{
+//     const fetchPurchaseOrder = async (userID) => {
+//     try {
+      
+//       const query = Query.equal("User_ID", userID);
+//       const ordersRes = await appwriteService.getPurchaseOrders([query]);
+//       setOrders(ordersRes.documents);
+//       fetchSuppliers(orders);
+//       setIsLoading(false);
+//     } catch (error) {
+//       console.error("Failed to fetch orders:", error);
+//     }
+//   }
+
+
+//   const fetchSuppliers = async (orders) => {
+//     try {
+//       const query = Query.equal("Supplier_ID", orders.supplier_Id); // Create a single query object
+//       const suppliersRes = await appwriteService.getSuppliers([query]); // Pass query inside an array
+//       setSuppliers(suppliersRes.documents);
+//       setIsLoading(false);
+//       setError(null); // Reset error state on success
+//     } catch (error) {
+//       setError("Error fetching suppliers. Please try again.");
+//       console.error("Appwrite service :: fetchSuppliers :: error", error);
+//       setIsLoading(false);
+//     }
+//   };
+
+//   // Delete order function
+//   const handleDelete = async (id) => {
+//     try {
+//       await appwriteService.deleteOrder(id);
+//       setOrders(orders.filter((order) => order.$id !== id));
+//     } catch (error) {
+//       setError("Failed to delete order");
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchUser();
+//   });
+
+//   return (
+//     <div className="container mx-auto">
+//       <h1 className="text-2xl font-semibold mt-8 mb-4">Orders</h1>
+//       <Button
+//         className="top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+//         onClick={() =>
+//           navigate(
+//             "/order/add"
+//           )
+//         }
+//       >
+//         Add New order
+//       </Button>
+//       {isLoading ? (
+//         <p className="text-gray-600">Loading...</p>
+//       ) : (
+//         <Table>
+//           <TableHeader>
+//             <TableRow>
+//               <TableHead>Product</TableHead>
+//               <TableHead>Order Date</TableHead>
+//               <TableHead>Total Amount</TableHead>
+//               <TableHead>Order Status</TableHead>
+//               <TableHead>Supplier Name</TableHead>
+//               <TableHead>Action</TableHead>
+//             </TableRow>
+//           </TableHeader>
+//           <TableBody>
+//             {orders.map((order) => (
+//               <TableRow key={order.$id}>
+//                 <TableCell>{order.$id}</TableCell>
+//                 <TableCell>{order.Order_Date}</TableCell>
+//                 <TableCell>{order.Total_Amount}</TableCell>
+//                 <TableCell>{order.Order_Status}</TableCell>
+//                 <TableCell>
+//                   {suppliers[order.supplier_Id]?.Supplier_Name || "Unknown"}
+//                 </TableCell>
+//                 <TableCell>
+//                   <Button
+//                     onClick={() => handleDelete(order.$id)}
+//                     variant="danger"
+//                   >
+//                     Delete
+//                   </Button>
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       )}
+//       {error && <p className="text-red-500 mt-4">{error}</p>}
+//     </div>
+//   );
+// }
+
+// export default Order;
+
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import appwriteService from "../../appwrite/config";
-import authService from "@/appwrite/auth";
+import authService from "../../appwrite/auth";
 import { Query } from "appwrite";
 import {
   Table,
@@ -22,115 +163,117 @@ function Order() {
   const [error, setError] = useState(null);
 
   // Fetch the current user
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const currentUser = await authService.getCurrentUser();
-        if (!currentUser) {
-          navigate(
-            "/login"
-          );
-        } else {
-          setUser(currentUser);
-        }
-      } catch (error) {
-        setError("Failed to fetch user");
+  const fetchUser = async () => {
+    try {
+      const currentUser = await authService.getCurrentUser();
+      if (currentUser) {
+        setUser(currentUser);
+        fetchPurchaseOrder(currentUser.$id);
+      } else {
+        navigate("/Login");
       }
-    };
-    fetchUser();
-  }, [navigate]);
+    } catch (error) {
+      setError("Error fetching user information. Please try again.");
+      console.error("Appwrite service :: fetchUser :: error", error);
+    }
+  };
 
   // Fetch orders and suppliers
-  useEffect(() => {
-    const fetchOrdersAndSuppliers = async () => {
-      try {
-        if (user) {
-          // Fetch orders
-          const ordersResponse = await appwriteService.getPurchaseOrders(
-            Query.equal("User_ID", [user?.$id])
-          );
-          const ordersData = ordersResponse.documents;
+  const fetchPurchaseOrder = async (userID) => {
+    try {
+      const query = Query.equal("User_ID", userID);
+      const ordersRes = await appwriteService.getPurchaseOrders([query]);
+      console.log("Orders Response:", ordersRes); // Log the response
 
-          // Extract unique supplier IDs
-          const supplierIds = [
-            ...new Set(ordersData.map((order) => order.supplier_Id)),
-          ];
-
-          // Fetch suppliers
-          const suppliersData = {};
-          await Promise.all(
-            supplierIds.map(async (supplierId) => {
-              const supplierResponse = await appwriteService.getSupplier(
-                supplierId
-              );
-              suppliersData[supplierId] = supplierResponse;
-            })
-          );
-
-          setOrders(ordersData);
-          setSuppliers(suppliersData);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setError("Failed to fetch orders or suppliers");
-        setIsLoading(false);
+      if (!ordersRes || !ordersRes.documents) {
+        throw new Error("Invalid response structure from API");
       }
-    };
 
-    fetchOrdersAndSuppliers();
-  }, [user]);
+      setOrders(ordersRes.documents);
+      fetchSuppliers(ordersRes.documents);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+      setError("Failed to fetch orders. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const fetchSuppliers = async (orders) => {
+    try {
+      const supplierIds = [...new Set(orders.map(order => order.supplier_Id))];
+      const suppliersMap = {};
+
+      for (const supplierId of supplierIds) {
+        const query = Query.equal("$id", supplierId);
+        const suppliersRes = await appwriteService.getSuppliers([query]);
+
+        if (suppliersRes.documents && suppliersRes.documents.length > 0) {
+          suppliersMap[supplierId] = suppliersRes.documents[0];
+        }
+      }
+
+      setSuppliers(suppliersMap);
+      setError(null); // Reset error state on success
+    } catch (error) {
+      console.error("Failed to fetch suppliers:", error);
+      setError("Error fetching suppliers. Please try again.");
+      setIsLoading(false);
+    }
+  };
 
   // Delete order function
   const handleDelete = async (id) => {
     try {
-      await appwriteService.deleteOrder(id);
+      await appwriteService.deletePurchaseOrder(id);
       setOrders(orders.filter((order) => order.$id !== id));
     } catch (error) {
-      setError("Failed to delete order");
+      console.error("Failed to delete order:", error);
+      setError("Failed to delete order. Please try again.");
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []); // Added empty dependency array to ensure this runs once
+
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-semibold mt-8 mb-4">Orders</h1>
+    <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+      <h1 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Orders</h1>
       <Button
-        className="top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
-        onClick={() =>
-          navigate(
-            "/order/add"
-          )
-        }
+        className="add-order-btn"
+        onClick={() => navigate("/order/add")}
       >
-        Add New order
+        Add New Order
       </Button>
       {isLoading ? (
         <p className="text-gray-600">Loading...</p>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Order Date</TableHead>
-              <TableHead>Total Amount</TableHead>
-              <TableHead>Order Status</TableHead>
-              <TableHead>Supplier Name</TableHead>
-              <TableHead>Action</TableHead>
+        <Table className="table-auto w-full bg-white shadow-md rounded-lg">
+          <TableHeader className="bg-gray-100 border-b">
+            <TableRow className="border-gray-200">
+              <TableHead className="px-4 py-2 text-left">Product</TableHead>
+              <TableHead className="px-4 py-2 text-left">Order Date</TableHead>
+              <TableHead className="px-4 py-2 text-left">Total Amount</TableHead>
+              <TableHead className="px-4 py-2 text-left">Order Status</TableHead>
+              <TableHead className="px-4 py-2 text-left">Supplier Name</TableHead>
+              <TableHead className="px-4 py-2 text-left">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.$id}>
-                <TableCell>{order.$id}</TableCell>
-                <TableCell>{order.Order_Date}</TableCell>
-                <TableCell>{order.Total_Amount}</TableCell>
-                <TableCell>{order.Order_Status}</TableCell>
-                <TableCell>
+              <TableRow key={order.$id} className="hover:bg-gray-50">
+                <TableCell className="px-4 py-2">{order.Product_Name}</TableCell>
+                <TableCell className="px-4 py-2">{order.Order_Date}</TableCell>
+                <TableCell className="px-4 py-2">₹ {order.Total_Amount}</TableCell>
+                <TableCell className="px-4 py-2">{order.Order_Statues}</TableCell>
+                <TableCell className="px-4 py-2">
                   {suppliers[order.supplier_Id]?.Supplier_Name || "Unknown"}
                 </TableCell>
-                <TableCell>
+                <TableCell className="px-4 py-2">
                   <Button
+                    className="delete-btn"
                     onClick={() => handleDelete(order.$id)}
-                    variant="danger"
                   >
                     Delete
                   </Button>

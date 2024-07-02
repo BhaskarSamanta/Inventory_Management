@@ -269,11 +269,13 @@ export class AppwriteService{
 
     async getPurchaseOrders(querys = Query.equal("Order_Id", [true])){
         try {
-            await this.databases.listDocuments(
+            const response = await this.databases.listDocuments(
                 conf.appwrite_DatabaseId,
                 conf.appwrite_Purchase_Order_CollectionId,
                 querys
             )
+            console.log("Purchase Orders from API:", response); // Log the response
+            return response;
         } catch (error) {
             throw ("Appwrite serive :: getPerchaseOrders :: error",error);
         }
