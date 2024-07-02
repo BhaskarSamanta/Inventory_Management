@@ -108,12 +108,12 @@ export default function Inventory() {
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Inventory</h2>
+    <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Inventory</h2>
 
       {/* Add product button */}
       <Button
-        className=" top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
+        className=" "
         onClick={() => navigate('/Items/add')}
       >
         Add New Product
@@ -128,38 +128,38 @@ export default function Inventory() {
           No products available. <Button className="text-blue-500" onClick={() => navigate('/Items/add')}>Add a product</Button>
         </p>
       ) : (
-        <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-md shadow-md">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="p-4 border-b border-gray-600">Product Name</TableHead>
-              <TableHead className="p-4 border-b border-gray-600">Price</TableHead>
-              <TableHead className="p-4 border-b border-gray-600">Stock Quantity</TableHead>
-              <TableHead className="p-4 border-b border-gray-600">Supplier</TableHead>
-              <TableHead className="p-4 border-b border-gray-600">Category</TableHead>
-              <TableHead className="p-4 border-b border-gray-600">Actions</TableHead>
+        <Table className="table-auto w-full bg-white shadow-md rounded-lg">
+          <TableHeader className=" bg-gray-100 border-b">
+            <TableRow className="border-gray-200">
+              <TableHead className="px-4 py-2 text-left">Product Name</TableHead>
+              <TableHead className="px-4 py-2 text-left">Price</TableHead>
+              <TableHead className="px-4 py-2 text-left">Stock Quantity</TableHead>
+              <TableHead className="px-4 py-2 text-left">Supplier</TableHead>
+              <TableHead className="px-4 py-2 text-left">Category</TableHead>
+              <TableHead className="px-4 py-2 text-left">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map(product => (
-              <TableRow key={product.$id} className="hover:bg-gray-600">
-                <TableCell className="p-4 border-b border-gray-600">{product.Product_Name}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">₹ {product.Price}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">{product.Stock_Qty}</TableCell>
-                <TableCell className="p-4 border-b border-gray-600">
+              <TableRow key={product.$id} className="hover:bg-gray-300">
+                <TableCell className="px-4 py-2">{product.Product_Name}</TableCell>
+                <TableCell className="px-4 py-2">₹ {product.Price}</TableCell>
+                <TableCell className="px-4 py-2">{product.Stock_Qty}</TableCell>
+                <TableCell className="px-4 py-2">
                   {suppliers[product.Supplier_ID] || 'Unknown Supplier'}
                 </TableCell>
-                <TableCell className="p-4 border-b border-gray-600">
+                <TableCell className="px-4 py-2">
                   {categories[product.Category_ID] || 'Unknown Category'}
                 </TableCell>
-                <TableCell className="p-4 border-b border-gray-600">
+                <TableCell className="px-4 py-2">
                   <Button
-                    className="bg-blue-500 text-white p-2 rounded-md mr-2"
+                    className="rounded-md mr-2"
                     onClick={() => navigate(`/Items/edit/${product.$id}`)}
                   >
                     Edit
                   </Button>
                   <Button
-                    className="bg-red-500 text-white p-2 rounded-md"
+                    className="bg-red-700 text-white p-2 rounded-md"
                     onClick={() => handleDelete(product.Product_ID)}
                   >
                     Delete

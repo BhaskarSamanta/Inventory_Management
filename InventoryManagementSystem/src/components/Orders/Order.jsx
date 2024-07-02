@@ -239,7 +239,7 @@ function Order() {
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
-      <h1 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Orders</h1>
+      <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Orders</h2>
       <Button
         className="add-order-btn"
         onClick={() => navigate("/order/add")}
@@ -262,7 +262,7 @@ function Order() {
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.$id} className="hover:bg-gray-50">
+              <TableRow key={order.$id} className="hover:bg-gray-300">
                 <TableCell className="px-4 py-2">{order.Product_Name}</TableCell>
                 <TableCell className="px-4 py-2">{order.Order_Date}</TableCell>
                 <TableCell className="px-4 py-2">₹ {order.Total_Amount}</TableCell>
