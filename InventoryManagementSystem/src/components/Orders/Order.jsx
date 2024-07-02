@@ -101,7 +101,7 @@ function Order() {
           )
         }
       >
-        Add New Product
+        Add New order
       </Button>
       {isLoading ? (
         <p className="text-gray-600">Loading...</p>

@@ -30,7 +30,7 @@ import Supliers from "./Supplier/Supliers";
 
 import Container from "./container/Container";
 import LogoutBtn from "./Header/LogoutBtn";
-import Logo from "./assets/Logo";
+import Logo from "./Logo";
 
 import {
     useFormField,

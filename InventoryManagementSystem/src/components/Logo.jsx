@@ -1,8 +1,11 @@
 import React from "react";
+
+// import '../../assets/image.svg';
+
 function Logo() {
   return (
     <div>
-      <img src = './image.svg' alt="Logo" />
+      <img src = '../../assets/image.png' alt="Logo" width='40px'/>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function AddItems() {
   }, [navigate]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (user) => {
       if (user) {
         try {
           const query = Query.equal("User_ID", user.$id); // Assuming user.$id is valid

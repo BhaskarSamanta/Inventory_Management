@@ -38,7 +38,7 @@ export default function Login() {
     return (
         <div className='w-full h-full flex flex-col items-center justify-center bg-gray-900 p-6'>
             <form onSubmit={handleSubmit(login)} className='bg-gray-800 p-8 rounded-lg shadow-lg'>
-                <Logo />
+                <Logo className=" flex justify-center"/>
                 <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-400">
                     Login to your account
                 </h2>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login as authLogin } from '../../store/authSlice';
 import { useForm } from 'react-hook-form';
-import Logo from '../assets/Logo';
+import Logo from '../Logo';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
@@ -26,7 +26,7 @@ export default function Signup() {
         setLoading(false);
         if (currentUser) {
           dispatch(authLogin(currentUser));
-          navigate('/dashboard');
+          navigate('/dashboard'); 
         }
       }
     } catch (error) {

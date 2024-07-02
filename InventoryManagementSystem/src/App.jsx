@@ -27,7 +27,7 @@ function App() {
       <div className="w-full flex flex-col">
         <Header />
         <main>
-        <SideBar />
+        <SideBar/>
           <Outlet />
         </main>
         <Footer />

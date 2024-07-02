@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "directory-tree-ascii": "^1.0.10",
     "glob": "^10.4.2",
     "input-otp": "^1.2.4",
     "nodemailer": "^6.9.14",
