@@ -15,7 +15,7 @@ function LogoutBtn() {
         })
     }
   return (
-    <Button variant="outline" onClick={logoutHandler}>Logout</Button>
+    <Button variant="outline" onClick={logoutHandler} className=' bg-red-400 hover:text-white hover:bg-red-600 transition-colors duration-200 border-gray-500 rounded-xl'>Logout</Button>
   )
 }
 

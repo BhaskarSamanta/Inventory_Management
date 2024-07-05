@@ -106,7 +106,7 @@ function Suppliers() {
                 </Button>
                 <Button
                   onClick={() => deleteSupplier(supplier.$id)}
-                  className="text-red-500 hover:text-red-700 transition duration-200"
+                  className="text-red-100 hover:text-red-100 transition duration-300 bg-red-600 p-2 rounded-md"
                 >
                   Delete
                 </Button>

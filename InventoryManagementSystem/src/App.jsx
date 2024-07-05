@@ -23,9 +23,9 @@ function App() {
   }, []);
 
   return !isLoading ? (
-    <div className="min-h-screen flex flex-wrap flex-col content-between bg-gray-900">
+    <div className=" flex flex-wrap flex-col content-between bg-gray-100">
       <div className="w-full flex flex-col">
-        <Header />
+        <Header/>
         <main>
         <SideBar/>
           <Outlet />

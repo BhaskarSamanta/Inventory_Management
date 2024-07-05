@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Logo, LogoutBtn } from '../index.js';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router';
+
 
 export default function Header() {
   const authStatus = useSelector((state) => state.auth.status);
@@ -48,19 +48,19 @@ export default function Header() {
   ];
 
   return (
-    <header className='py-4 shadow-lg'>
+    <header className='py-4 shadow-2xl w-full bg-gray-200'>
       <Container>
-        <nav className='flex items-center justify-between'>
+        <nav className='flex items-center justify-between w-full'>
           <Link to='/'>
             <Logo width='70px' className='hover:opacity-90 transition-opacity duration-200' />
           </Link>
           <ul className='flex space-x-4'>
             {navItems.map((item) =>
               item.active ? (
-                <li key={item.name} className='relative'>
+                <li key={item.name} className='relative  hover:opacity-70'>
                   <Link
                     to={item.path}
-                    className={`text-white transition duration-200 ease-in-out ${
+                    className={` text-blue-700 transition duration-200 ease-in-out ${
                       location.pathname === item.path
                         ? 'border-b-2 border-blue-500'
                         : 'border-b-2 border-transparent'
@@ -73,7 +73,7 @@ export default function Header() {
             )}
             {authStatus && (
               <li>
-                <LogoutBtn className='text-white hover:text-gray-300 transition-colors duration-200' />
+                <LogoutBtn />
               </li>
             )}
           </ul>

@@ -63,10 +63,10 @@ export default function Categorys() {
   }, []);
 
   return (
-    <div className="p-6 bg-gray-800 text-gray-200 rounded-lg shadow-lg max-w-4xl mx-auto">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Categories</h2>
+    <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Categories</h2>
             <Button
-                className=" top-6 bg-transparent text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
+                className=" top-6 bg-transparent hover:scale-110 text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
                 onClick={() => navigate("/catagory/add")}
             >
                 Add New Category
@@ -85,24 +85,24 @@ export default function Categorys() {
                     </Button>
                 </p>
             ) : (
-                <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-md shadow-md">
-                    <TableHeader>
-                        <TableRow className="text-left">
-                            <TableHead className="p-4 border-b border-gray-600">
+                <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md">
+                    <TableHeader className="bg-gray-100 border-b">
+                        <TableRow>
+                            <TableHead className="p-4 text-left">
                                 Category Name
                             </TableHead>
-                            <TableHead className="p-4 border-b border-gray-600">
+                            <TableHead className="p-4 text-left">
                                 Actions
                             </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {categories.map((category) => (
-                            <TableRow key={category.$id} className="hover:bg-gray-600">
-                                <TableCell className="p-4 border-b border-gray-600">
+                            <TableRow key={category.$id} className="border-b bg-gray-200 hover:bg-gray-100 transition duration-200">
+                                <TableCell className="p-4">
                                     {category.Category_Name}
                                 </TableCell>
-                                <TableCell className="p-4 border-b border-gray-600">
+                                <TableCell className="p-4">
                                     <Button
                                         className="bg-red-700 text-white p-2 rounded-md transition-transform duration-200 transform hover:scale-110"
                                         onClick={() => handleDelete(category.$id)}
