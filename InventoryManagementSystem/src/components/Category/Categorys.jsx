@@ -66,7 +66,7 @@ export default function Categorys() {
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Categories</h2>
             <Button
-                className=" top-6 bg-transparent hover:scale-110 text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
+                className=" flex top-6  p-2 rounded-md hover:bg-green-800 hover:text-white"
                 onClick={() => navigate("/catagory/add")}
             >
                 Add New Category
@@ -85,7 +85,7 @@ export default function Categorys() {
                     </Button>
                 </p>
             ) : (
-                <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md">
+                <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md pt-4">
                     <TableHeader className="bg-gray-100 border-b">
                         <TableRow>
                             <TableHead className="p-4 text-left">

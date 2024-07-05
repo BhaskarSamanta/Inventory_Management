@@ -74,7 +74,7 @@ function Suppliers() {
 
     <div className=" mb-3">
       <Button
-        // className="bg-blue-500 text-white p-2 rounded-md hover:bg-green-600 transition"
+        className=" rounded-md hover:bg-green-800 transition"
         onClick={() => navigate("/suppliers/add")}
       >
         Add New Supplier
@@ -100,7 +100,7 @@ function Suppliers() {
               <TableCell className="p-4 text-center">
                 <Button
                   onClick={() => navigate(`/suppliers/edit/${supplier.$id}`)}
-                  className="text-blue-500 hover:text-blue-700 transition duration-200 mr-2"
+                  className=" hover:text-blue-700 transition duration-200 mr-2"
                 >
                   Edit
                 </Button>

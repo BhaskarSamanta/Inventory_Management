@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useParams, useNavigate } from 'react-router-dom';
-import appwriteService from '../../appwrite/config';
-import authService from '../../appwrite/auth';
-import { Button } from '../index';
-import { Query } from 'appwrite';
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+import appwriteService from "../../appwrite/config";
+import authService from "../../appwrite/auth";
+import { Button } from "../index";
+import { Query } from "appwrite";
 
 export default function EditProduct() {
   const { id } = useParams(); // Get the product ID from URL
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [error, setError] = useState("");
   const [product, setProduct] = useState(null);
   const [suppliers, setSuppliers] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -26,11 +31,11 @@ export default function EditProduct() {
         if (currentUser) {
           setUser(currentUser);
         } else {
-          navigate('/login');
+          navigate("/login");
         }
       } catch (error) {
-        console.error('Appwrite service :: getCurrentUser :: error', error);
-        navigate('/login');
+        console.error("Appwrite service :: getCurrentUser :: error", error);
+        navigate("/login");
       }
     };
 
@@ -45,13 +50,13 @@ export default function EditProduct() {
 
         const productData = await appwriteService.getProduct(id);
         if (!productData) {
-          throw new Error('Product not found.');
+          throw new Error("Product not found.");
         }
         setProduct(productData);
-        setValue('Product_Name', productData.Product_Name);
-        setValue('Price', productData.Price);
-        setValue('Description', productData.Description);
-        setValue('Stock_Qty', productData.Stock_Qty);
+        setValue("Product_Name", productData.Product_Name);
+        setValue("Price", productData.Price);
+        setValue("Description", productData.Description);
+        setValue("Stock_Qty", productData.Stock_Qty);
         setSelectedSupplier(productData.Supplier_ID);
         setSelectedCategory(productData.Category_ID);
 
@@ -63,8 +68,8 @@ export default function EditProduct() {
         const categoryData = await appwriteService.getCatagories([query]);
         setCategories(categoryData.documents);
       } catch (error) {
-        console.error('Failed to fetch product details:', error);
-        setError('Failed to fetch product details.');
+        console.error("Failed to fetch product details:", error);
+        setError("Failed to fetch product details.");
       }
     };
 
@@ -72,7 +77,7 @@ export default function EditProduct() {
   }, [id, setValue, user]);
 
   const onSubmit = async (data) => {
-    console.log('Form data:', data); // Check if form data is correctly received
+    console.log("Form data:", data); // Check if form data is correctly received
     try {
       // Perform form data processing (e.g., validation, API calls)
       await appwriteService.updateProduct(id, {
@@ -84,25 +89,25 @@ export default function EditProduct() {
         Supplier_ID: selectedSupplier,
         Category_ID: selectedCategory,
       });
-  
+
       // Display success message or navigate to another page
-      alert('Product updated successfully!');
-      navigate('/Items'); // Example navigation after successful submission
+      alert("Product updated successfully!");
+      navigate("/Items"); // Example navigation after successful submission
     } catch (error) {
       // Handle errors (e.g., display error message)
-      setError('Failed to update product.');
-      console.error('Error updating product:', error);
+      setError("Failed to update product.");
+      console.error("Error updating product:", error);
     }
   };
 
   const handleSupplierSelect = (supplierId) => {
     setSelectedSupplier(supplierId);
-    setValue('Supplier_ID', supplierId);
+    setValue("Supplier_ID", supplierId);
   };
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
-    setValue('Category_ID', categoryId);
+    setValue("Category_ID", categoryId);
   };
 
   return (
@@ -117,7 +122,9 @@ export default function EditProduct() {
             className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Product_Name || ""}`}
             defaultValue={`${product?.Product_Name || ""}`}
-            {...register("Product_Name", { required: "Product Name is required" })}
+            {...register("Product_Name", {
+              required: "Product Name is required",
+            })}
           />
           {errors.Product_Name && (
             <p className="text-red-500">{errors.Product_Name.message}</p>
@@ -157,7 +164,9 @@ export default function EditProduct() {
             className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Stock_Qty || ""}`}
             defaultValue={`${product?.Stock_Qty || ""}`}
-            {...register("Stock_Qty", { required: "Stock Quantity is required" })}
+            {...register("Stock_Qty", {
+              required: "Stock Quantity is required",
+            })}
           />
           {errors.Stock_Qty && (
             <p className="text-red-500">{errors.Stock_Qty.message}</p>
@@ -167,39 +176,40 @@ export default function EditProduct() {
         <div className="flex flex-col">
           <label className="text-gray-400 font-semibold">Select Supplier</label>
           <select
-  className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-  value={selectedSupplier || ""}
-  onChange={(e) => handleSupplierSelect(e.target.value)}
->
-  <option value="">Select Supplier</option>
-  {suppliers.map((supplier) => (
-    <option key={supplier.Supplier_ID} value={supplier.Supplier_ID}>
-      {supplier.Supplier_Name}
-    </option>
-  ))}
-</select>
-
+            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={selectedSupplier || ""}
+            onChange={(e) => handleSupplierSelect(e.target.value)}
+          >
+            <option value="">Select Supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier.Supplier_ID} value={supplier.Supplier_ID}>
+                {supplier.Supplier_Name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex flex-col">
           <label className="text-gray-400 font-semibold">Select Category</label>
           <select
-  className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-  value={selectedCategory || ""}
-  onChange={(e) => handleCategorySelect(e.target.value)}
->
-  <option value="">Select Category</option>
-  {categories.map((category) => (
-    <option key={category.Category_ID} value={category.Category_ID}>
-      {category.Category_Name}
-    </option>
-  ))}
-</select>
-
+            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={selectedCategory || ""}
+            onChange={(e) => handleCategorySelect(e.target.value)}
+          >
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.Category_ID} value={category.Category_ID}>
+                {category.Category_Name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex justify-center mt-4">
-          <Button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition">
+          <Button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
+          >
             Update Product
           </Button>
         </div>
