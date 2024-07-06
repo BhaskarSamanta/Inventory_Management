@@ -3,12 +3,12 @@ import { FaFacebook, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-gray-200 text-gray-800 py-8 mt-8 ">
+    <footer className="bg-gray-200 text-gray-800 py-8 mt-8 flex ">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-between">
           {/* Company Info */}
           <div className="w-full sm:w-1/3 mb-4">
-            <h2 className="text-xl font-semibold mb-4">Inventory Management System</h2>
+            <h2 className="text-xl font-semibold mb-4">InventoryPro</h2>
             <p className="text-gray-700">
               Streamline your inventory process with ease. Manage your stocks, suppliers, and orders efficiently with our system.
             </p>
