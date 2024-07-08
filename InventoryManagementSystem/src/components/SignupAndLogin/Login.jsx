@@ -36,10 +36,10 @@ export default function Login() {
     }
 
     return (
-        <div className='w-full h-full flex flex-col items-center justify-center bg-gray-900 p-6'>
-            <form onSubmit={handleSubmit(login)} className='bg-gray-800 p-8 rounded-lg shadow-lg'>
+        <div className='w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 rounded-md'>
+            <form onSubmit={handleSubmit(login)} className='bg-gray-200 hover:scale-105 transition duration-200 border-gray-600 p-8 rounded-lg shadow-2xl w-1/3'>
                 <Logo className=" flex justify-center"/>
-                <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-400">
+                <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-800">
                     Login to your account
                 </h2>
                 {error && (
@@ -50,21 +50,23 @@ export default function Login() {
                 <Input
                     type="email"
                     placeholder="Email"
-                    className='mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
+                    className='mb-4 p-3 text-gray-800 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
                     {...register("email", { required: true })}
                 />
                 <Input
                     type="password"
                     placeholder="Password"
-                    className='mb-6 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
+                    className='mb-6 p-3 text-gray-800 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
                     {...register("password", { required: true })}
                 />
+                <div className='flex justify-center'>
                 <Button
                     type="submit"
-                    className='w-full py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
+                    className='w-1/3 flex py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition duration-75 rounded-lg ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
                 >
                     Login
                 </Button>
+                </div>
             </form>
         </div>
     );

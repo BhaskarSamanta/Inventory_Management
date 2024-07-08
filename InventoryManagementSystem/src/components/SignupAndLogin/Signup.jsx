@@ -41,36 +41,38 @@ export default function Signup() {
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center bg-gray-900 p-6'>
-      <form onSubmit={handleSubmit(create)} className='bg-gray-800 p-8 rounded-lg shadow-lg'>
-        <Logo />
-        <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-400">Sign up to create account</h2>
+    <div className='w-full h-full flex flex-col items-center justify-center  bg-white rounded-md p-6'>
+      <form onSubmit={handleSubmit(create)} className='bg-gray-200 p-8 hover:scale-105 transition duration-200 rounded-lg shadow-2xl w-1/3'>
+        <div className='flex justify-center'><Logo /></div>
+        <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-600">Sign up to create account</h2>
         {error && <p className="text-red-600 mt-4 text-center">{error}</p>} {/* Show error message if there's any */}
         <Input
           type='text'
           placeholder='Name'
-          className='mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
+          className='mb-4 p-3 border-gray-800 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
           {...register('name', { required: true })}
         />
         <Input
           type='email'
           placeholder='Email'
-          className='mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
+          className='mb-4 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
           {...register('email', { required: true })}
         />
         <Input
           type='password'
           placeholder='Password'
-          className='mb-6 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
+          className='mb-6 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600'
           {...register('password', { required: true })}
         />
+        <div className='flex justify-center'>
         <Button
           type='submit'
-          className='w-full py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
+          className='w-1/3 py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors ease-in-out hover:scale-105 tranzition duration-500 focus:outline-none focus:ring-2 focus:ring-indigo-600'
           disabled={loading}
         >
           {loading ? 'Signing up...' : 'Signup'}
         </Button>
+        </div>
       </form>
     </div>
   );

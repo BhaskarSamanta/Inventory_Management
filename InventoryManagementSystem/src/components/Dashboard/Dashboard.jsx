@@ -44,8 +44,8 @@ function DashBoard() {
     }, []);
 
     return (
-        <div className="flex flex-col bg-gray-100 rounded-lg shadow-2xl pb-4">
-            <h1 className="text-center text-2xl font-bold leading-tight pb-4 text-slate">Product Stock Dashboard</h1>
+        <div className="flex flex-col bg-gray-100 w-full rounded-lg shadow-2xl pb-4">
+            <h1 className="text-center text-2xl font-bold w-full leading-tight pb-4 text-slate">Product Stock Dashboard</h1>
             {isLoading ? (
                 <p className=" pl-4 text-blue-600">Loading...</p>
             ) : (
