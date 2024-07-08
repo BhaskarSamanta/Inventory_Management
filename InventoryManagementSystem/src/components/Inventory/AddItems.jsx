@@ -4,6 +4,7 @@ import appwriteService from "../../appwrite/config";
 import authService from "../../appwrite/auth";
 import { ID, Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../index";
 
 export default function AddItems() {
   const {
@@ -207,20 +208,20 @@ export default function AddItems() {
 
           <div className="flex justify-center mt-4">
             <div className="flex gap-4 pr-6">
-              <button
+              <Button
                 type="submit"
-                className=" bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition w-36"
+                className=" bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white p-2 rounded-md transition w-36"
               >
                 Add Product
-              </button>
+              </Button>
             </div>
 
-            <button
+            <Button
               onClick={() => navigate("/Items")}
               className=" bg-red-800 text-white p-2 rounded-md hover:bg-red-600 transition w-36"
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
       )}

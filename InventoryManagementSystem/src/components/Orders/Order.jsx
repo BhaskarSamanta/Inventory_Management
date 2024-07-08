@@ -12,6 +12,7 @@ import {
   TableCell,
 } from "../ui/table.jsx";
 import { Button } from "../ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Order() {
   const navigate = useNavigate();
@@ -106,7 +107,13 @@ function Order() {
         Add New Order
       </Button>
       {isLoading ? (
-        <p className="text-gray-600">Loading...</p>
+        <div className='space-y-4 mt-5'>
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        </div>
       ) : (
         <Table className="table-auto w-full bg-white shadow-md rounded-lg">
           <TableHeader className="bg-gray-100 border-b">

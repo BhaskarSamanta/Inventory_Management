@@ -87,7 +87,13 @@ function OrderDetail() {
         Add New OrderDetails
       </Button>
       {isLoading ? (
-        <p className="text-gray-500">Loading order details...</p>
+        <div className='space-y-4 mt-5'>
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        </div>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : orderDetails.length === 0 ? (

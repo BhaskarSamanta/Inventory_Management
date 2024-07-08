@@ -12,6 +12,7 @@ import {
   TableHead,
   TableCell,
 } from "../ui/table.jsx";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Suppliers() {
   const navigate = useNavigate();
@@ -69,7 +70,6 @@ function Suppliers() {
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
     <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Suppliers</h2>
 
-    {isLoading && <p className="text-gray-600 text-center">Loading suppliers...</p>}
     {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
     <div className=" mb-3">
@@ -79,9 +79,16 @@ function Suppliers() {
       >
         Add New Supplier
       </Button>
+    {isLoading && <div className='space-y-4 mt-5'>
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        </div>}
     </div>
 
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto"> 
       <Table className="table-auto w-full bg-white shadow-md rounded-lg">
         <TableHeader className="bg-gray-100 border-b">
           <TableRow>
@@ -98,6 +105,7 @@ function Suppliers() {
               <TableCell className="p-4">{supplier.Address}</TableCell>
               <TableCell className="p-4">{supplier.Contact}</TableCell>
               <TableCell className="p-4 text-center">
+                <div className="flex justify-center">
                 <Button
                   onClick={() => navigate(`/suppliers/edit/${supplier.$id}`)}
                   className=" hover:text-blue-700 transition duration-200 mr-2"
@@ -110,6 +118,7 @@ function Suppliers() {
                 >
                   Delete
                 </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

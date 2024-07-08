@@ -12,6 +12,8 @@ import {
   TableHead,
   TableCell,
 } from '../ui/table';
+import { Skeleton } from "@/components/ui/skeleton"
+ 
 
 export default function Inventory() {
   const [user, setUser] = useState(null);
@@ -120,7 +122,14 @@ export default function Inventory() {
       </Button>
 
       {isLoading ? (
-        <p>Loading...</p>
+        <div className='space-y-4 mt-5'>
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        </div>
+
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : products.length === 0 ? (
@@ -128,7 +137,7 @@ export default function Inventory() {
           No products available. <Button className="text-blue-500" onClick={() => navigate('/Items/add')}>Add a product</Button>
         </p>
       ) : (
-        <Table className="table-auto w-full bg-white shadow-md rounded-lg">
+        <Table className=" w-full bg-white shadow-md rounded-lg">
           <TableHeader className=" bg-gray-100 border-b">
             <TableRow className="border-gray-200">
               <TableHead className="px-4 py-2 text-left">Product Name</TableHead>
@@ -153,13 +162,13 @@ export default function Inventory() {
                 </TableCell>
                 <TableCell className="px-4 py-2">
                   <Button
-                    className="rounded-md mr-2"
+                    className="rounded-md mr-2 mb-1"
                     onClick={() => navigate(`/Items/edit/${product.$id}`)}
                   >
                     Edit
                   </Button>
                   <Button
-                    className="bg-red-700 text-white p-2 rounded-md"
+                    className="bg-red-700 text-white p-2 rounded-md hover:bg-red-900"
                     onClick={() => handleDelete(product.Product_ID)}
                   >
                     Delete

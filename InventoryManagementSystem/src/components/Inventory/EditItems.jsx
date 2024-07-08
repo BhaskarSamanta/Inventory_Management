@@ -111,7 +111,7 @@ export default function EditProduct() {
   };
 
   return (
-    <div className="p-6 bg-gray-800 text-gray-200 rounded-lg shadow-lg max-w-md mx-auto">
+    <div className="p-6 bg-gray-100 text-gray-200 rounded-lg shadow-2xl max-w-md mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">Edit Product</h2>
       {error && <p className="text-red-400 text-center mb-4">{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -119,7 +119,7 @@ export default function EditProduct() {
           <label className="text-gray-400 font-semibold">Product Name</label>
           <input
             type="text"
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Product_Name || ""}`}
             defaultValue={`${product?.Product_Name || ""}`}
             {...register("Product_Name", {
@@ -136,7 +136,7 @@ export default function EditProduct() {
           <input
             type="number"
             step="0.01"
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Price || ""}`}
             defaultValue={`${product?.Price || ""}`}
             {...register("Price", { required: "Price is required" })}
@@ -150,7 +150,7 @@ export default function EditProduct() {
           <label className="text-gray-400 font-semibold">Description</label>
           <input
             type="text"
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Description || ""}`}
             defaultValue={`${product?.Description || ""}`}
             {...register("Description")}
@@ -161,7 +161,7 @@ export default function EditProduct() {
           <label className="text-gray-400 font-semibold">Stock Quantity</label>
           <input
             type="number"
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder={`${product?.Stock_Qty || ""}`}
             defaultValue={`${product?.Stock_Qty || ""}`}
             {...register("Stock_Qty", {
@@ -173,10 +173,11 @@ export default function EditProduct() {
           )}
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col">
           <label className="text-gray-400 font-semibold">Select Supplier</label>
           <select
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={selectedSupplier || ""}
             onChange={(e) => handleSupplierSelect(e.target.value)}
           >
@@ -192,7 +193,7 @@ export default function EditProduct() {
         <div className="flex flex-col">
           <label className="text-gray-400 font-semibold">Select Category</label>
           <select
-            className="border border-gray-600 bg-gray-900 text-gray-300 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-600 bg-gray-100 font-semibold text-gray-600 rounded-md w-full p-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 appearance-none"
             value={selectedCategory || ""}
             onChange={(e) => handleCategorySelect(e.target.value)}
           >
@@ -204,13 +205,21 @@ export default function EditProduct() {
             ))}
           </select>
         </div>
+        </div>
 
         <div className="flex justify-center mt-4">
           <Button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
+            className="w-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white p-2 rounded-md hover:bg-blue-600 transition"
           >
             Update Product
+          </Button>
+
+          <Button
+            onClick={() => navigate("/Items")}
+            className=" w-1/2 ml-4 bg-red-600 text-white p-2 rounded-md hover:bg-red-900 transition"
+          >
+            cancel
           </Button>
         </div>
       </form>

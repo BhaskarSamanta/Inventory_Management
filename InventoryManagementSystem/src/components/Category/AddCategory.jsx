@@ -47,8 +47,8 @@ export default function AddCategory() {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-gray-900 rounded-xl shadow-md border border-gray-700">
-            <h2 className="text-3xl font-semibold text-center text-white mb-6">Add New Category</h2>
+        <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 rounded-xl shadow-md border border-gray-700">
+            <h2 className="text-3xl font-semibold text-center text-gray-600 mb-6">Add New Category</h2>
             <form onSubmit={handleSubmit(addNewCategory)} className="space-y-6">
                 {errors.Category_Name && (
                     <div className="text-red-500 text-sm mb-4">
@@ -59,7 +59,7 @@ export default function AddCategory() {
                     <Input
                         type="text"
                         placeholder="Category Name"
-                        className="block w-full px-4 py-3 text-white bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                        className="block w-full px-4 py-3 text-white bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
                         {...register('Category_Name', { required: true })}
                     />
                     {errors.Category_Name && (
@@ -74,6 +74,12 @@ export default function AddCategory() {
                     
                 >
                     Add New Category
+                </Button>
+                <Button 
+                    onClick={() => navigate('/catagory')}
+                    className=" w-full bg-red-600 hover:bg-red-800 font-semibold text-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-lg "
+                >
+                    Cancel
                 </Button>
             </form>
         </div>

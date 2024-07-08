@@ -12,6 +12,7 @@ import {
   TableHead,
   TableCell,
 } from "../ui/table.jsx";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Categorys() {
   const navigate = useNavigate();
@@ -73,7 +74,13 @@ export default function Categorys() {
             </Button>
 
             {isLoading ? (
-                <p>Loading...</p>
+              <div className='space-y-4 mt-5'>
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        </div>
             ) : categories.length === 0 ? (
                 <p className="text-center">
                     No categories available.{" "}
