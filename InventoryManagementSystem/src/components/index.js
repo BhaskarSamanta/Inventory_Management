@@ -18,8 +18,8 @@ import Inventory from "./Inventory/Inventory";
 import AddCategory from "./Category/AddCategory";
 import Categorys from "./Category/Categorys";
 
-import AddOrderDetail from "./OrderDetails/AddOrderDetail";
-import OrderDetail from "./OrderDetails/OrderDetail";
+import AddSalesReport from "./SalesReport/AddSalesReport";
+import SalesReport from "./SalesReport/salesReport";
 
 import AddOrder from "./Orders/AddOrder";
 import Order from "./Orders/Order";
@@ -55,7 +55,7 @@ export {
     DashBoard,
     AddItems,
     AddCategory,
-    AddOrderDetail,
+    AddSalesReport,
     AddSuplier,
     Container,
     LogoutBtn,
@@ -63,7 +63,7 @@ export {
     Inventory,
     Categorys,
     AuthLayout,
-    OrderDetail,
+    SalesReport,
     AddOrder,
     Order,
     EditSupplier,

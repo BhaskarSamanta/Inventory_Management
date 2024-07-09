@@ -281,18 +281,20 @@ export class AppwriteService{
         }
     }
 
-    async addPurchaseOrderdetails(Detail_Id,{Quantity,Unit_Price,Total_Price, Product_ID}){
+    async addSalesReport(SalesID,{Quantity,Unit_Price,Total_Price, Product_ID, Date, User_ID}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Purchase_Order_Detail_CollectionId,
-                Detail_Id,
+                conf.appwrite_Sales_report_CollectionId,
+                SalesID,
                 {
+                    SalesID,
                     Quantity,
                     Unit_Price,
                     Total_Price,
-                    purchaseOrder,
-                    Product_ID
+                    Product_ID,
+                    Date,
+                    User_ID
                 }
             )
         } catch (error) {
@@ -300,27 +302,39 @@ export class AppwriteService{
         }
     }
 
-    async deletePurchaseOrderdetails(Detail_Id){
+    async deleteSalesReport(SalesID){
         try {
             return await this.databases.deleteDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Purchase_Order_Detail_CollectionId,
-                Detail_Id
+                conf.appwrite_Sales_report_CollectionId,
+                SalesID
             )
         } catch (error) {
             throw("Appwrite serive :: deletePerchaseOrderdetails :: error",error);
         }
     }
 
-    async getPurchaseOrderdetails(Detail_Id){
+    async getSalesReport(SalesID){
         try {
             return await this.databases.getDocument(
                 conf.appwrite_DatabaseId,
-                conf.appwrite_Purchase_Order_Detail_CollectionId,
-                Detail_Id
+                conf.appwrite_Sales_report_CollectionId,
+                SalesID
             )
         } catch (error) {
             throw("Appwrite serive :: getPerchaseOrderdetails :: error",error);
+        }
+    }
+
+    async getSalesReports(querys = Query.equal("SalesID", [true])){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwrite_DatabaseId,
+                conf.appwrite_Sales_report_CollectionId,
+                querys
+            );
+        } catch (error) {
+            console.error("Appwrite serive :: getPerchaseOrderdetails :: error",error);
         }
     }
 

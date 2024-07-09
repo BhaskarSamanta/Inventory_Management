@@ -11,9 +11,10 @@ import {
   TableHead,
   TableCell,
 } from "../ui/table.jsx";
-import { Button } from "../ui/button";
+import { Button } from "../ui/button.jsx";
+import { Skeleton } from "@/components/ui/skeleton.jsx";
 
-function OrderDetail() {
+export default function SalesReport() {
   const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState([]);
   const [user, setUser] = useState(null);
@@ -21,35 +22,33 @@ function OrderDetail() {
   const [error, setError] = useState(null);
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
+    const fetchUser = async () => {
       try {
         const currentUser = await authService.getCurrentUser();
-        if (currentUser) {
+        if (!currentUser) {
+          navigate("/Login");
+        } else {
           setUser(currentUser);
           fetchOrderDetails(user.$id);
-        } else {
-          navigate("/Login");
         }
       } catch (error) {
-        setError(error);
+        setError("Error fetching user information. Please try again.");
+        console.error("Appwrite service :: fetchUser :: error", error);
+      }finally{
         setIsLoading(false);
-        throw ("Appwrite serive :: fetchCurrentUser :: error", error);
       }
     };
 
-    fetchCurrentUser();
-  }, [navigate]);
 
   const fetchOrderDetails = async (user_id) => {
+    const query = Query.equal("User_ID", user_id)
     try {
-      const response = await appwriteService.getPurchaseOrderdetails(
-        Query.equal("User_ID", [user_id])
-      );
+      const response = await appwriteService.getSalesReport([query]);
       setOrderDetails(response.documents);
       fetchProducts(response.documents.map((doc) => doc.Product_ID));
     } catch (error) {
-      throw ("Appwrite serive :: fetchOrderDetails :: error", error);
+      setError("Failed to fetch order details."); // Set a generic error message
+      console.error("Appwrite service :: fetchOrderDetails :: error", error);
     } finally {
       setIsLoading(false);
     }
@@ -59,13 +58,14 @@ function OrderDetail() {
     try {
       const response = await appwriteService.getProducts(productIds);
       setProducts(response.documents);
-      setIsLoading(false);
     } catch (error) {
-      console.error("Appwrite service :: fetchProducts :: error", error);
       setError("Failed to fetch products.");
+      console.error("Appwrite service :: fetchProducts :: error", error);
+    } finally {
       setIsLoading(false);
     }
   };
+
   const getProductById = (productId) => {
     const product = products.find((p) => p.$id === productId);
     return product ? product.Product_Name : "Unknown Product";
@@ -77,22 +77,18 @@ function OrderDetail() {
         Order Details
       </h1>
       <Button
-        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover: bg-green-500 hover:text-white"
+        className="absolute top-6 right-6 bg-transparent text-blue-700 p-2 rounded-md hover:bg-green-500 hover:text-white"
         onClick={() =>
-          navigate(
-            "/InventoryManagementSystem/src/pages/orderDetails/AddOrderDetailsPage.jsx"
-          )
+          navigate("/salesReport/add")
         }
       >
         Add New OrderDetails
       </Button>
       {isLoading ? (
-        <div className='space-y-4 mt-5'>
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <div className="space-y-4 mt-5">
+          {[1, 2, 3, 4, 5].map((index) => (
+            <Skeleton key={index} className="w-full h-[50px] rounded-full bg-gray-300" />
+          ))}
         </div>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
@@ -106,7 +102,7 @@ function OrderDetail() {
               <TableHead className="py-2 px-4">Quantity</TableHead>
               <TableHead className="py-2 px-4">Unit Price</TableHead>
               <TableHead className="py-2 px-4">Total Price</TableHead>
-              <TableHead className="py-2 px-4">Order Date</TableHead>
+              <TableHead className="py-2 px-4">Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -135,13 +131,13 @@ function OrderDetail() {
       <div className="mt-6">
         <Button
           className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
         >
-          Back to Home
+          Back to Dashboard
         </Button>
         <Button
           className="ml-4 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
-          onClick={() => navigate("/AddOrderDetail")}
+          onClick={() => navigate("/salesReport/add")}
         >
           Add New Order
         </Button>
@@ -150,4 +146,4 @@ function OrderDetail() {
   );
 }
 
-export default OrderDetail;
+

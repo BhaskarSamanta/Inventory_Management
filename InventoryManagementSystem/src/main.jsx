@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/home/HomePage.jsx'
-import { AuthLayout, } from './components'
+import { AuthLayout } from './components'
 
 import  Signup from './pages/SignupAndLogin/SignupPage.jsx'
 import Login from './pages/SignupAndLogin/LoginPage.jsx'
@@ -19,8 +19,8 @@ import CatagoriesPage from './pages/catagory/CatagoriesPage.jsx'
 import OrderPage from './pages/order/OrderPage.jsx'
 import AddOrderPage from './pages/order/AddOrderPage.jsx'
 
-import OrderDetailsPage from './pages/orderDetails/OrderDetailsPage.jsx'
-import AddOrderDetailsPage from './pages/orderDetails/AddOrderDetailsPage.jsx'
+import SalesReportPage from './pages/SalesReportPages/SalesReport.jsx'
+import AddSalesReportPage from './pages/SalesReportPages/AddSalesReport.jsx'
 
 import AddItemsPage from './pages/products/AddItemsPage.jsx'
 import EditItemsPage from './pages/products/EditItemsPage.jsx'
@@ -109,17 +109,18 @@ const router = createBrowserRouter([
         </AuthLayout>)
       },
       {
-        path: '/orderDetails',
-        element: (<AuthLayout authentication>
+        path: '/salesReport',
+        element: (
+        <AuthLayout authentication>
               {" "}
-          <OrderDetailsPage/>
+          <SalesReportPage/>
         </AuthLayout>)
       },
       {
-        path: '/orderDetails/add',
+        path: '/salesReport/add',
         element: (<AuthLayout authentication>
               {" "}
-          <AddOrderDetailsPage/>
+          <AddSalesReportPage/>
         </AuthLayout>)
       },
       {

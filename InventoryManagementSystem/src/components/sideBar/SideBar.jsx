@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTachometerAlt, FaBoxOpen, FaRocket } from "react-icons/fa";
+import { FaTachometerAlt, FaBoxOpen, FaRocket, FaSalesforce } from "react-icons/fa";
 import authService from "../../appwrite/auth";
 
 export default function Sidebar() {
@@ -39,6 +39,11 @@ export default function Sidebar() {
       name: "Suppliers", 
       path: "/order", 
       icon: <FaRocket /> 
+    },
+    { 
+      name: "Suppliers", 
+      path: "/salesReport", 
+      icon: <FaSalesforce /> 
     },
   ];
 
