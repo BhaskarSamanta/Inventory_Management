@@ -111,8 +111,8 @@ export default function EditProduct() {
   };
 
   return (
-    <div className="p-6 bg-gray-100 text-gray-200 rounded-lg shadow-2xl max-w-md mx-auto">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Edit Product</h2>
+    <div className="p-6 bg-gray-100 text-gray-700 rounded-lg shadow-2xl max-w-md mx-auto">
+      <h2 className="text-2xl mb-4 font-bold text-center">Edit Product</h2>
       {error && <p className="text-red-400 text-center mb-4">{error}</p>}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col">

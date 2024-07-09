@@ -95,7 +95,7 @@ export default function Categorys() {
                 <Table className="min-w-full bg-gray-700 bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md pt-4">
                     <TableHeader className="bg-gray-100 border-b">
                         <TableRow>
-                            <TableHead className="p-4 text-left">
+                            <TableHead className="pl-10 text-left">
                                 Category Name
                             </TableHead>
                             <TableHead className="p-4 text-left">
@@ -105,8 +105,11 @@ export default function Categorys() {
                     </TableHeader>
                     <TableBody>
                         {categories.map((category) => (
-                            <TableRow key={category.$id} className="border-b bg-gray-200 hover:bg-gray-100 transition duration-200">
-                                <TableCell className="p-4">
+                            <TableRow key={category.$id} 
+                              className="transition duration-200 bg-slate-100 ease-in-out transform hover:scale-x-105 hover:shadow-lg hover:z-50 relative"
+                            >
+                              
+                                <TableCell className="pl-20">
                                     {category.Category_Name}
                                 </TableCell>
                                 <TableCell className="p-4">

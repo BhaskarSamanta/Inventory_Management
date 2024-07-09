@@ -61,7 +61,9 @@ function Order() {
 
   const fetchSuppliers = async (orders) => {
     try {
-      const supplierIds = [...new Set(orders.map(order => order.supplier_Id))];
+      const supplierIds = [
+        ...new Set(orders.map((order) => order.supplier_Id)),
+      ];
       const suppliersMap = {};
 
       for (const supplierId of supplierIds) {
@@ -100,39 +102,51 @@ function Order() {
   return (
     <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Orders</h2>
-      <Button
-        className="add-order-btn"
-        onClick={() => navigate("/order/add")}
-      >
+      <Button className="add-order-btn" onClick={() => navigate("/order/add")}>
         Add New Order
       </Button>
       {isLoading ? (
-        <div className='space-y-4 mt-5'>
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+        <div className="space-y-4 mt-5">
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
         </div>
       ) : (
         <Table className="table-auto w-full bg-white shadow-md rounded-lg">
           <TableHeader className="bg-gray-100 border-b">
             <TableRow className="border-gray-200">
-              <TableHead className="px-4 py-2 text-left">Product</TableHead>
+              <TableHead className="pl-8 py-2 text-left">Product</TableHead>
               <TableHead className="px-4 py-2 text-left">Order Date</TableHead>
-              <TableHead className="px-4 py-2 text-left">Total Amount</TableHead>
-              <TableHead className="px-4 py-2 text-left">Order Status</TableHead>
-              <TableHead className="px-4 py-2 text-left">Supplier Name</TableHead>
+              <TableHead className="px-4 py-2 text-left">
+                Total Amount
+              </TableHead>
+              <TableHead className="px-4 py-2 text-left">
+                Order Status
+              </TableHead>
+              <TableHead className="px-4 py-2 text-left">
+                Supplier Name
+              </TableHead>
               <TableHead className="px-4 py-2 text-left">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {orders.map((order) => (
-              <TableRow key={order.$id} className="hover:bg-gray-300">
-                <TableCell className="px-4 py-2">{order.Product_Name}</TableCell>
+              <TableRow
+                key={order.$id}
+                className="transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg hover:z-50 relative"
+              >
+                <TableCell className="pl-8 py-2">
+                  {order.Product_Name}
+                </TableCell>
                 <TableCell className="px-4 py-2">{order.Order_Date}</TableCell>
-                <TableCell className="px-4 py-2">₹ {order.Total_Amount}</TableCell>
-                <TableCell className="px-4 py-2">{order.Order_Statues}</TableCell>
+                <TableCell className="px-4 py-2">
+                  ₹ {order.Total_Amount}
+                </TableCell>
+                <TableCell className="px-4 py-2">
+                  {order.Order_Statues}
+                </TableCell>
                 <TableCell className="px-4 py-2">
                   {suppliers[order.supplier_Id]?.Supplier_Name || "Unknown"}
                 </TableCell>

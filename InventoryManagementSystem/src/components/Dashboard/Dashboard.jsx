@@ -55,8 +55,8 @@ function DashBoard() {
         <div className="flex flex-col space-y-3 ml-10 mr-10">
           <Skeleton className="h-[400px] w-full rounded-xl bg-gray-300" />
           <div className="space-y-2">
-            <Skeleton className="h-8 w-[500px] bg-gray-300" />
-            <Skeleton className="h-8 w-[300px] bg-gray-300" />
+            <Skeleton className="h-8 w-2/3 bg-gray-300" />
+            <Skeleton className="h-8 w-1/2 bg-gray-300" />
           </div>
         </div>
       ) : products.length === 0 ? (

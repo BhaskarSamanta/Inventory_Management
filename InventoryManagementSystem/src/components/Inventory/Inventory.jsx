@@ -12,8 +12,7 @@ import {
   TableHead,
   TableCell,
 } from '../ui/table';
-import { Skeleton } from "@/components/ui/skeleton"
- 
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Inventory() {
   const [user, setUser] = useState(null);
@@ -110,12 +109,12 @@ export default function Inventory() {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+    <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-lg relative z-0">
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-700">Inventory</h2>
 
       {/* Add product button */}
       <Button
-        className=" "
+        className="mb-4"
         onClick={() => navigate('/Items/add')}
       >
         Add New Product
@@ -123,13 +122,12 @@ export default function Inventory() {
 
       {isLoading ? (
         <div className='space-y-4 mt-5'>
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
+          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
         </div>
-
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : products.length === 0 ? (
@@ -137,47 +135,52 @@ export default function Inventory() {
           No products available. <Button className="text-blue-500" onClick={() => navigate('/Items/add')}>Add a product</Button>
         </p>
       ) : (
-        <Table className=" w-full bg-white shadow-md rounded-lg">
-          <TableHeader className=" bg-gray-100 border-b">
-            <TableRow className="border-gray-200">
-              <TableHead className="px-4 py-2 text-left">Product Name</TableHead>
-              <TableHead className="px-4 py-2 text-left">Price</TableHead>
-              <TableHead className="px-4 py-2 text-left">Stock Quantity</TableHead>
-              <TableHead className="px-4 py-2 text-left">Supplier</TableHead>
-              <TableHead className="px-4 py-2 text-left">Category</TableHead>
-              <TableHead className="px-4 py-2 text-left">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products.map(product => (
-              <TableRow key={product.$id} className="hover:bg-gray-300">
-                <TableCell className="px-4 py-2">{product.Product_Name}</TableCell>
-                <TableCell className="px-4 py-2">₹ {product.Price}</TableCell>
-                <TableCell className="px-4 py-2">{product.Stock_Qty}</TableCell>
-                <TableCell className="px-4 py-2">
-                  {suppliers[product.Supplier_ID] || 'Unknown Supplier'}
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  {categories[product.Category_ID] || 'Unknown Category'}
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  <Button
-                    className="rounded-md mr-2 mb-1"
-                    onClick={() => navigate(`/Items/edit/${product.$id}`)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    className="bg-red-700 text-white p-2 rounded-md hover:bg-red-900"
-                    onClick={() => handleDelete(product.Product_ID)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
+        <div className="overflow-x-auto relative z-0">
+          <Table className="w-full bg-white shadow-md rounded-lg">
+            <TableHeader className="bg-gray-100 border-b">
+              <TableRow className="border-gray-200">
+                <TableHead className="pl-8 py-2 text-left">Product Name</TableHead>
+                <TableHead className="px-4 py-2 text-left">Price</TableHead>
+                <TableHead className="px-4 py-2 text-left">Stock Quantity</TableHead>
+                <TableHead className="px-4 py-2 text-left">Supplier</TableHead>
+                <TableHead className="px-4 py-2 text-left">Category</TableHead>
+                <TableHead className="px-4 py-2 text-left">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {products.map(product => (
+                <TableRow
+                  key={product.$id}
+                  className="transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg hover:z-50 relative"
+                >
+                  <TableCell className="pl-8 py-2 border-t ">{product.Product_Name}</TableCell>
+                  <TableCell className="px-4 py-2 border-t">₹ {product.Price}</TableCell>
+                  <TableCell className="px-4 py-2 border-t">{product.Stock_Qty}</TableCell>
+                  <TableCell className="px-4 py-2 border-t">
+                    {suppliers[product.Supplier_ID] || 'Unknown Supplier'}
+                  </TableCell>
+                  <TableCell className="px-4 py-2 border-t">
+                    {categories[product.Category_ID] || 'Unknown Category'}
+                  </TableCell>
+                  <TableCell className="px-4 py-2 border-t">
+                    <Button
+                      className="rounded-md mr-2 mb-1"
+                      onClick={() => navigate(`/Items/edit/${product.$id}`)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      className="bg-red-700 text-white p-2 rounded-md hover:bg-red-900"
+                      onClick={() => handleDelete(product.$id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );
