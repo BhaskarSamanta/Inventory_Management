@@ -36,12 +36,12 @@ export default function Sidebar() {
       icon: <FaBoxOpen /> 
     },
     { 
-      name: "Suppliers", 
+      name: "Orders", 
       path: "/order", 
       icon: <FaRocket /> 
     },
     { 
-      name: "Suppliers", 
+      name: "SalesReport", 
       path: "/salesReport", 
       icon: <FaSalesforce /> 
     },

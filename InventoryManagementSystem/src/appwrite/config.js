@@ -281,7 +281,7 @@ export class AppwriteService{
         }
     }
 
-    async addSalesReport(SalesID,{Quantity,Unit_Price,Total_Price, Product_ID, Date, User_ID}){
+    async addSalesReport(SalesID,{Quantity,Unit_Price,Total_Price, Product_ID, Date, User_ID,CustomarName,CustomarAddress}){
         try {
             return await this.databases.createDocument(
                 conf.appwrite_DatabaseId,
@@ -294,7 +294,9 @@ export class AppwriteService{
                     Total_Price,
                     Product_ID,
                     Date,
-                    User_ID
+                    User_ID,
+                    CustomarName,
+                    CustomarAddress
                 }
             )
         } catch (error) {

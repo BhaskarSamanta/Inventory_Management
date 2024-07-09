@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import appwriteService from '@/appwrite/config';
-import authService from '@/appwrite/auth';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Input, Button } from '../index.js';
+import React, { useState, useEffect } from "react";
+import appwriteService from "@/appwrite/config";
+import authService from "@/appwrite/auth";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Input, Button } from "../index.js";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '../ui/dropdown-menu.jsx';
-import { ID, Query } from 'appwrite';
+} from "../ui/dropdown-menu.jsx";
+import { ID, Query } from "appwrite";
 
 function AddSalesReport() {
-  const { handleSubmit, register, formState: { errors }, setValue, watch } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [quantity, setQuantity] = useState('');
-  const [unitPrice, setUnitPrice] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
+  const [quantity, setQuantity] = useState("");
+  const [unitPrice, setUnitPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
   const [error, setError] = useState(null);
 
   // Fetch user
@@ -30,7 +36,7 @@ function AddSalesReport() {
       try {
         const userResponse = await authService.getCurrentUser();
         if (!userResponse) {
-          navigate('/login');
+          navigate("/login");
         } else {
           setUser(userResponse);
         }
@@ -62,8 +68,8 @@ function AddSalesReport() {
   // Watch for changes in selectedProduct and update form value
   useEffect(() => {
     if (selectedProduct) {
-      setValue('Product_ID', selectedProduct);
-      const product = products.find(p => p.$id === selectedProduct);
+      setValue("Product_ID", selectedProduct);
+      const product = products.find((p) => p.$id === selectedProduct);
       if (product) {
         setUnitPrice(product.Unit_Price);
       }
@@ -93,16 +99,18 @@ function AddSalesReport() {
     try {
       const orderDetail = {
         SalesID,
-        Quantity: toString(formData.Quantity),
-        Unit_Price: toString(formData.Unit_Price),
-        Total_Price: toString(formData.Total_Price),
-        Product_ID : toString(formData.Product_ID),
+        Quantity: formData.Quantity.toString(),
+        Unit_Price: formData.Unit_Price.toString(),
+        Total_Price: formData.Total_Price.toString(),
+        Product_ID: formData.Product_ID.toString(),
         Date: new Date().toDateString(),
-        User_ID : user.$id
+        User_ID: user.$id,
+        CustomarName: formData.CustomarName,
+        CustomarAddress: formData.CustomarAddress,
       };
 
       await appwriteService.addSalesReport(SalesID, orderDetail);
-      navigate('/salesReport'); // Redirect to orders page after submission
+      navigate("/salesReport"); // Redirect to orders page after submission
     } catch (error) {
       setError("Failed to add order detail.");
       console.error("Error adding order detail:", error);
@@ -115,64 +123,134 @@ function AddSalesReport() {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800">Add Purchase Order Detail</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit(handleSalesReport)} className="space-y-6 bg-white p-6 rounded-lg shadow-lg">
+    <div className="max-w-lg mx-auto mt-12 p-8 bg-gray-100 rounded-xl shadow-2xl border-gray-300">
+      <h2 className="text-3xl font-bold text-center text-gray-600 mb-8">
+        Add Sales Report
+      </h2>
+      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+      <form onSubmit={handleSubmit(handleSalesReport)} className="space-y-6">
         <div>
-          <label className="block text-gray-700 mb-2">Product</label>
-          <DropdownMenu>
+          <label className="block text-gray-700 mb-2">Quantity</label>
+          <Input
+            type="number"
+            placeholder="Enter Quantity"
+            className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            {...register("Quantity", { required: true, min: 1 })}
+          />
+          {errors.Quantity && (
+            <span className="block mt-1 text-xs text-red-500">
+              Quantity is required and should be at least 1.
+            </span>
+          )}
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2">Unit Price</label>
+          <Input
+            type="number"
+            placeholder="Enter Unit Price"
+            step="0.01"
+            className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            {...register("Unit_Price", { required: true, min: 0 })}
+          />
+          {errors.Unit_Price && (
+            <span className="block mt-1 text-xs text-red-500">
+              Unit price is required and should be at least 0.
+            </span>
+          )}
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2">Total Price</label>
+          <Input
+            type="number"
+            placeholder="Enter Total Price"
+            className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            {...register("Total_Price", { required: true })}
+          />
+          {errors.Total_Price && (
+            <span className="block mt-1 text-xs text-red-500">
+              Total price is required.
+            </span>
+          )}
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2">Customer Name</label>
+          <Input
+            type="text"
+            placeholder="Enter customer name"
+            className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            {...register("CustomerName", { required: true })}
+          />
+          {errors.CustomerName && (
+            <span className="block mt-1 text-xs text-red-500">
+              Customer name is required.
+            </span>
+          )}
+        </div>
+        <div>
+          <label className="block text-gray-700 mb-2">Customer Address</label>
+          <Input
+            type="text"
+            placeholder="Enter customer address"
+            className="w-full text-gray-600 p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            {...register("CustomerAddress", { required: true })}
+          />
+          {errors.CustomerAddress && (
+            <span className="block mt-1 text-xs text-red-500">
+              Customer address is required.
+            </span>
+          )}
+        </div>
+        <div className="relative flex items-center w-full">
+          <label className="block text-gray-800 mb-2">Product</label>
+          <DropdownMenu className="border-gray-600">
             <DropdownMenuTrigger asChild>
-              <button className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md text-left focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                {selectedProduct ? products.find(p => p.$id === selectedProduct)?.Product_Name : 'Select a Product'}
-              </button>
+              <Button className=" border border-gray-600 p-3 bg-gray-100 text-gray-600 rounded-md text-left focus:ring-2 focus:ring-blue-500 focus:outline-none hover:bg-gray-300 ml-3">
+                {selectedProduct
+                  ? products.find((p) => p.$id === selectedProduct)
+                      ?.Product_Name
+                  : "Select a Product"}
+              </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white shadow-lg rounded-md p-1 mt-1">
+            <DropdownMenuContent className="bg-white shadow-lg border-gray-700 rounded-md p-1 mt-1">
               {products.map((product) => (
-                <DropdownMenuItem 
-                  key={product.$id} 
-                  onClick={() => handleProductSelect(product.$id)} 
-                  className="cursor-pointer p-2 hover:bg-gray-100 rounded-md"
+                <DropdownMenuItem
+                  key={product.$id}
+                  onClick={() => handleProductSelect(product.$id)}
+                  className="cursor-pointer p-2 hover:bg-gray-300 border-gray-600 rounded-md"
                 >
                   {product.Product_Name}
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem disabled className="cursor-not-allowed opacity-50 p-2">More Products Coming Soon</DropdownMenuItem>
+              <DropdownMenuSeparator className="border-gray-600" />
             </DropdownMenuContent>
           </DropdownMenu>
-          <input type="hidden" {...register('Product_ID', { required: true })} />
-          {errors.Product_ID && <span className="text-red-500">Product is required.</span>}
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-2">Quantity</label>
-          <input
-            type="number"
-            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            {...register('Quantity', { required: true, min: 1 })}
+          <Input
+            type="hidden"
+            className="block w-full px-4 py-3 text-white bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Address ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300"
+            {...register("Product_ID", { required: true })}
           />
-          {errors.Quantity && <span className="text-red-500">Quantity is required and should be at least 1.</span>}
+          {errors.Product_ID && (
+            <span className="absolute -bottom-6 text-xs text-red-500">
+              Product is required.
+            </span>
+          )}
         </div>
-        <div>
-          <label className="block text-gray-700 mb-2">Unit Price</label>
-          <input
-            type="number"
-            step="0.01"
-            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            {...register('Unit_Price', { required: true, min: 0 })}
-          />
-          {errors.Unit_Price && <span className="text-red-500">Unit price is required and should be at least 0.</span>}
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-2">Total Price</label>
-          <input
-            type="number"
-            className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            {...register('Total_Price', { required: true })}
-          />
-          {errors.Total_Price && <span className="text-red-500">Total price is required.</span>}
-        </div>
-        <Button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition ease-in-out duration-150">Add Order Detail</Button>
+
+          <div className="flex justify-between">
+          <Button
+          type="submit"
+          className="w-full py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
+        >
+          Submit
+        </Button>
+        <Button
+          onClick={() => navigate("/salesReport")}
+          className="w-full py-3 text-lg font-semibold text-white bg-red-600 hover:bg-red-800 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ml-2"
+        >
+          Cancel
+        </Button>
+          </div>
+        
       </form>
     </div>
   );
