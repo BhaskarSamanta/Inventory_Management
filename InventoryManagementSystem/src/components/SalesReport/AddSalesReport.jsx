@@ -105,8 +105,8 @@ function AddSalesReport() {
         Product_ID: formData.Product_ID.toString(),
         Date: new Date().toDateString(),
         User_ID: user.$id,
-        CustomarName: formData.CustomarName,
-        CustomarAddress: formData.CustomarAddress,
+        CustomarName: formData.CustomerName||'',
+        CustomarAddress: formData.CustomerAddress||'',
       };
 
       await appwriteService.addSalesReport(SalesID, orderDetail);

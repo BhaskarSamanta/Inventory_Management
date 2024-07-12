@@ -105,34 +105,33 @@ export default function SalesReport() {
             <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
             <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
           </div>
-      ) : error ? (
-        <p className="text-red-500 mb-4">{error}</p>
+      
       ) : SalesReport.length === 0 ? (
-        <p className="text-gray-500">No sales Report found.</p>
+        <p className="text-gray-500">No sales Report found. <Button className="rounded-md hover:bg-green-800 transition" onClick={() => navigate("/salesReport/add")}>Add new</Button></p>
       ) : (
         <Table className="table-auto w-full bg-white shadow-md rounded-lg">
           <TableHeader className="bg-gray-100 border-b">
             <TableRow>
-              <TableHead className="pl-10 text-left">Product Name</TableHead>
+              <TableHead className="pl-10 text-center">Product Name</TableHead>
               <TableHead className="p-4 text-left">Quantity</TableHead>
               <TableHead className="p-4 text-left">Unit Price</TableHead>
               <TableHead className="p-4 text-left">Total Price</TableHead>
               <TableHead className="p-4 text-center">Date</TableHead>
-              <TableHead className="p-4 text-left">Customer Name</TableHead>
-              <TableHead className="p-4 text-left">Customer Address</TableHead>
+              <TableHead className="p-4 text-center">Customer Name</TableHead>
+              <TableHead className="p-4 text-center">Customer Address</TableHead>
               <TableHead className="p-4 text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {SalesReport.map((salesReport) => (
               <TableRow key={salesReport.$id} className="transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg hover:z-50 relative">
-                <TableCell className="pl-10 text-left">{getProductById(salesReport.Product_ID)}</TableCell>
+                <TableCell className="pl-10 text-center">{getProductById(salesReport.Product_ID)}</TableCell>
                 <TableCell className=" px-4">{salesReport.Quantity}</TableCell>
                 <TableCell className=" px-4">₹ {salesReport.Unit_Price}</TableCell>
                 <TableCell className=" px-4">₹ {salesReport.Total_Price}</TableCell>
                 <TableCell className=" text-center">{new Date(salesReport.Date).toLocaleDateString()}</TableCell>
-                <TableCell className=" px-4"> {salesReport.CustomarName}</TableCell>
-                <TableCell className=" px-4"> {salesReport.CustomarAddress}</TableCell>
+                <TableCell className=" px-4 text-center"> {salesReport.CustomarName}</TableCell>
+                <TableCell className=" px-4 text-center"> {salesReport.CustomarAddress}</TableCell>
                 <TableCell className="p-4 text-center">
                   <div className="flex flex-col">
                   <Button
