@@ -47,7 +47,7 @@ function DashBoard() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-gray-100 w-full rounded-lg shadow-2xl pb-4">
+    <div className="flex mb-8 flex-col bg-gray-100 w-full rounded-lg shadow-2xl pb-4">
       <h1 className="text-center text-2xl font-bold w-full leading-tight pb-4 text-slate">
         Product Stock Dashboard
       </h1>
