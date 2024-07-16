@@ -50,11 +50,11 @@ export default function Header() {
     return (null)
   }else{
     return (
-      <header className='py-4 shadow-2xl w-full bg-gray-200'>
+      <header className=' shadow-2xl w-full bg-gray-200'>
         <Container>
           <nav className='flex items-center justify-between w-full'>
             <Link to='/'>
-              <Logo width='70px' className='hover:opacity-90 transition-opacity duration-200' />
+              <Logo className='hover:opacity-90 transition-opacity duration-200' />
             </Link>
             <ul className='flex space-x-4'>
               {navItems.map((item) =>
