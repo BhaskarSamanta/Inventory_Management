@@ -9,13 +9,13 @@ const HomePage = () => {
       <div className="w-full h-full text-center mt-10">
         
         {/* Heading component */}
-        <h1 className="text-4xl text-blue-800 font-extrabold font-hack mb-8">
+        <h1 className="text-4xl underline text-purple-700 font-bold font-hack mb-8">
           Welcome to InventoryPro
         </h1>
 
         {/* First row */}
         <div className="flex flex-col md:flex-row mt-20 justify-between w-full px-10 mb-10">
-          <div className="flex flex-col h-full w-full md:w-1/2 p-6 ease-in-out transition-transform bg-gradient-to-br from-purple-500 to-blue-600 border-b-2 shadow-sm border-blue-950 rounded-3xl mb-20 md:mb-0">
+          <div className="flex flex-col h-full w-full md:w-1/2 p-6 ease-in-out transition-transform bg-gradient-to-br from-purple-900 hover:scale-105 to-blue-800 border-b-2 shadow-sm border-blue-950 rounded-3xl mb-20 md:mb-0">
             <p className="text-purple-300 text-left text-xl mb-4">
               <strong className="font-mono text-white text-3xl">InventoryPro</strong> is a web application that helps you
               manage your inventory effortlessly. With our user-friendly interface, you can easily add, update, and manage your inventory.
@@ -34,7 +34,7 @@ const HomePage = () => {
         {/* Second row */}
         <div className="flex flex-col md:flex-row mt-20 justify-between w-full px-10 mb-10">
         <div className="flex justify-center mb-10 w-2/3 h-2/3 scale-150">
-            <img src="../../../public/assets/inventoryPage.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
+            <img src="../../../public/assets/signupSS.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
           </div>
           <div className="flex flex-col hover:scale-105 h-full w-full md:w-2/3 p-6 ease-in-out transition-transform bg-transparent rounded-3xl">
             <p className="text-purple-300 text-left text-xl mb-4">

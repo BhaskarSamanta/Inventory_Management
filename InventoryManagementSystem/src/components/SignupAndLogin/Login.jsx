@@ -36,8 +36,8 @@ export default function Login() {
     }
 
     return (
-        <div className='w-full h-full flex flex-col items-center justify-center bg-gray-100 p-6 rounded-md'>
-            <form onSubmit={handleSubmit(login)} className='bg-gray-200 hover:scale-105 transition duration-200 border-gray-600 p-8 rounded-lg shadow-2xl w-1/3'>
+        <div className='w-full h-1/2 flex flex-col items-center justify-center bg-gray-100 p-6 rounded-md'>
+            <form onSubmit={handleSubmit(login)} className='bg-gray-200 h-full hover:scale-105 transition duration-200 border-gray-600 p-8 rounded-lg shadow-2xl w-1/3'>
                 <Logo className=" flex justify-center"/>
                 <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-800">
                     Login to your account
