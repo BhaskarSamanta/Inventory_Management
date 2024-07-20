@@ -57,7 +57,7 @@ function AddSupplier() {
                 <div className="relative">
                     <Input
                         placeholder="Supplier Name"
-                        className={`block w-full px-4 py-3 text-white bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Supplier_Name ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
+                        className={`block w-full px-4 py-3 text-gray-800 bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Supplier_Name ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
                         {...register("Supplier_Name", { required: true })}
                     />
                     {errors.Supplier_Name && (
@@ -67,7 +67,7 @@ function AddSupplier() {
                 <div className="relative">
                     <Input
                         placeholder="Supplier Address"
-                        className={`block w-full px-4 py-3 text-white bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Address ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
+                        className={`block w-full px-4 py-3 text-gray-800 bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Address ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
                         {...register("Address", { required: true })}
                     />
                     {errors.Address && (
@@ -77,7 +77,7 @@ function AddSupplier() {
                 <div className="relative">
                     <Input
                         placeholder="Supplier Contact"
-                        className={`block w-full px-4 py-3 text-white bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Contact ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
+                        className={`block w-full px-4 py-3 text-gray-800 bg-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${errors.Contact ? 'focus:ring-red-500' : 'focus:ring-blue-500'} focus:border-transparent transition duration-300`}
                         {...register("Contact", { required: true })}
                     />
                     {errors.Contact && (
