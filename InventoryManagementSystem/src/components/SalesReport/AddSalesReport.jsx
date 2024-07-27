@@ -89,33 +89,84 @@ function AddSalesReport() {
     calculateTotalPrice();
   }, [quantity, unitPrice]);
 
+  // Handle unit price change
+  // useEffect(() => {
+  //   if (selectedProduct) {
+  //     const product = products.find((p) => p.$id === selectedProduct);
+  //     if (product) {
+  //       setUnitPrice(product.Unit_Price);
+  //       setValue("Unit_Price", product.Unit_Price);
+  //     }
+  //   }
+  // }, [selectedProduct, products, setValue]);
+  
+  // Handle total Price
+  // useEffect(() => {
+  //   const calculateTotalPrice = () => {
+  //     const parsedQuantity = parseFloat(quantity);
+  //     const parsedUnitPrice = parseFloat(unitPrice);
+  //     if (!isNaN(parsedQuantity) && !isNaN(parsedUnitPrice)) {
+  //       setTotalPrice((parsedQuantity * parsedUnitPrice).toFixed(2));
+  //       setValue("Total_Price", (parsedQuantity * parsedUnitPrice).toFixed(2));
+  //     }
+  //   };
+  
+  //   calculateTotalPrice();
+  // }, [quantity, unitPrice, setValue]);
+  
+
   // Handle form submission
+
   const handleSalesReport = async (formData) => {
     if (!user) {
-      setError("User not authenticated.");
-      return;
+        setError("User not authenticated.");
+        return;
     }
     const SalesID = ID.unique();
     try {
-      const orderDetail = {
-        SalesID,
-        Quantity: formData.Quantity.toString(),
-        Unit_Price: formData.Unit_Price.toString(),
-        Total_Price: formData.Total_Price.toString(),
-        Product_ID: formData.Product_ID.toString(),
-        Date: new Date().toDateString(),
-        User_ID: user.$id,
-        CustomarName: formData.CustomerName||'',
-        CustomarAddress: formData.CustomerAddress||'',
-      };
+        const orderDetail = {
+            SalesID,
+            Quantity: formData.Quantity.toString(),
+            Unit_Price: formData.Unit_Price.toString(),
+            Total_Price: formData.Total_Price.toString(),
+            Product_ID: formData.Product_ID.toString(),
+            Date: new Date().toDateString(),
+            User_ID: user.$id,
+            CustomarName: formData.CustomerName || '',
+            CustomarAddress: formData.CustomerAddress || '',
+        };
 
-      await appwriteService.addSalesReport(SalesID, orderDetail);
-      navigate("/salesReport"); // Redirect to orders page after submission
+        // Fetch the selected product to get the current stock quantity
+        const selectedProduct = products.find(p => p.$id === formData.Product_ID);
+        if (!selectedProduct) {
+            setError("Selected product not found.");
+            return;
+        }
+
+        const updatedQuantity = Number(selectedProduct.Stock_Qty) - formData.Quantity;
+        if (updatedQuantity < 0) {
+            setError("Insufficient stock quantity.");
+            return;
+        }
+
+        // Add the sales report
+        await appwriteService.addSalesReport(SalesID, orderDetail);
+
+        // Update the product's stock quantity
+        await appwriteService.updateProduct(selectedProduct.$id, {
+            ...selectedProduct, // Include other product details
+            Stock_Qty: updatedQuantity.toString()
+        });
+
+        // Navigate after successful update
+        navigate("/salesReport");
+
     } catch (error) {
-      setError("Failed to add order detail.");
-      console.error("Error adding order detail:", error);
+        setError("Failed to add order detail.");
+        console.error("Error adding order detail:", error);
     }
-  };
+};
+
 
   // Handle product selection from dropdown
   const handleProductSelect = (productId) => {
@@ -148,6 +199,8 @@ function AddSalesReport() {
           <Input
             type="number"
             placeholder="Enter Unit Price"
+            // value = {unitPrice||""}
+            // onChange={(e) => setUnitPrice(e.target.value)}
             step="0.01"
             className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             {...register("Unit_Price", { required: true, min: 0 })}
@@ -163,6 +216,8 @@ function AddSalesReport() {
           <Input
             type="number"
             placeholder="Enter Total Price"
+            // value={totalPrice||""}
+            // onChange={(e) => setTotalPrice(e.target.value)}
             className="w-full p-3 bg-gray-50 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             {...register("Total_Price", { required: true })}
           />
