@@ -42,7 +42,7 @@ export default function Signup() {
 
   return (
     <div className='w-full h-full flex flex-col items-center justify-center  bg-white rounded-md p-6'>
-      <form onSubmit={handleSubmit(create)} className='bg-gray-200 p-8 hover:scale-105 transition duration-200 rounded-lg shadow-2xl w-1/3'>
+      <form onSubmit={handleSubmit(create)} className='bg-gray-200 p-8 hover:scale-105 transition duration-200 rounded-lg shadow-2xl w-96 h-96'>
         <div className='flex justify-center'><Logo /></div>
         <h2 className="text-center text-2xl font-bold leading-tight pb-4 text-gray-600">Sign up to create account</h2>
         {error && <p className="text-red-600 mt-4 text-center">{error}</p>} {/* Show error message if there's any */}
