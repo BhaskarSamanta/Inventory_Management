@@ -27,14 +27,14 @@ const HomePage = () => {
             </p>
           </div>
           <div className="flex justify-center md:justify-end mb-20 w-2/3 h-full mr-56 scale-150 md:w-1/3">
-            <img src="../../../public/assets/image.png" alt="Logo" className="w-3/4 md:w-1/2" />
+            <img src="/assets/image.png" alt="Logo" className="w-3/4 md:w-1/2" />
           </div>
         </div>
 
         {/* Second row */}
         <div className="flex flex-col md:flex-row mt-20 justify-between w-full px-10 mb-10">
         <div className="flex justify-center mb-10 w-2/3 h-2/3 scale-150">
-            <img src="../../../public/assets/signupSS.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
+            <img src="/assets/signupSS.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
           </div>
           <div className="flex flex-col hover:scale-105 h-full w-full md:w-2/3 p-6 ease-in-out transition-transform bg-transparent rounded-3xl">
             <p className="text-purple-300 text-left text-xl mb-4">
@@ -56,7 +56,7 @@ const HomePage = () => {
             </p>
           </div>
           <div className="flex justify-center w-2/3 h-2/3 scale-150">
-            <img src="../../../public/assets/inventoryPage.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
+            <img src="/assets/inventoryPage.png" alt="Logo" className="w-3/4 md:w-1/2 rounded-xl"/>
           </div>
         </div>
       </div>
