@@ -13,6 +13,7 @@ import {
   TableCell,
 } from "../ui/table.jsx";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ClipLoader } from "react-spinners";
 
 export default function Categorys() {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import Logo from '../Logo';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-
+import { ClipLoader } from 'react-spinners';
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ export default function Signup() {
           className='w-1/3 py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors ease-in-out hover:scale-105 tranzition duration-500 focus:outline-none focus:ring-2 focus:ring-indigo-600'
           disabled={loading}
         >
-          {loading ? 'Signing up...' : 'Signup'}
+          {loading ? <ClipLoader size={20} color={"#ffffff"} /> : "Signup"}
         </Button>
         </div>
       </form>

@@ -7,14 +7,16 @@ import { useForm } from "react-hook-form";
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Logo } from '../';
-
+import { ClipLoader } from 'react-spinners';
 export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
     const [error, setError] = useState("");
-
+    const [Loading, setLoading] = useState(false);
     const login = async (data) => {
+        setLoading(true);
+        setError("");
         try {
             const session = await authService.login(data);
             if (session) {
@@ -32,6 +34,9 @@ export default function Login() {
                 // General error handling
                 setError("An error occurred during login. Please try again.");
             }
+        }
+        finally{
+            setLoading(false);
         }
     }
 
@@ -64,7 +69,7 @@ export default function Login() {
                     type="submit"
                     className='w-1/3 flex py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition duration-75 rounded-lg ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
                 >
-                    Login
+                   {Loading?<ClipLoader color="white" loading={Loading} size={20}/>:"Login"}
                 </Button>
                 </div>
             </form>
