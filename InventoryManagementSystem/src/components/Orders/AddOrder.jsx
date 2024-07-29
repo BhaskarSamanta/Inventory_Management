@@ -105,13 +105,13 @@ function AddOrder() {
           <label className="block text-sm font-medium text-gray-900 dark:text-white">
             Order Date
           </label>
-          <Calendar className="relative" onDateSelect={handleDateSelect} />
+          <Calendar className=" border border-gray-500 rounded-xl" onDateSelect={handleDateSelect} />
           <Input
             type="text"
             placeholder="Selected Date"
             value={selectedDate ? selectedDate.toDateString() : ""}
             readOnly
-            className="mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            className="mb-4 p-3 text-gray-700 bg-gray-100 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
             {...register("Order_Date", { required: true })}
           />
         </div>
@@ -119,19 +119,19 @@ function AddOrder() {
         <Input
           type="text"
           placeholder="Product Name"
-          className="mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="mb-4 p-3 text-gray-700 bg-gray-100 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
           {...register("ProductsName", { required: true })}
         />
 
         <Input
           type="text"
           placeholder="Order Total"
-          className="mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="mb-4 p-3 text-gray-700 bg-gray-100 border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
           {...register("Order_Total", { required: true })}
         />
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
             {orderStatus|| 'select order status'}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
@@ -149,7 +149,7 @@ function AddOrder() {
         </DropdownMenu>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
             {selectedSupplier || "Select Supplier"}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
