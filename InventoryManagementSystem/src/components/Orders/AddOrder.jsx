@@ -21,7 +21,8 @@ function AddOrder() {
   const [user, setUser] = useState(null);
   const [suppliers, setSuppliers] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [orderStatus, setOrderStatus] = useState("Order Placed");
+  const [orderStatus, setOrderStatus] = useState("");
+  const [selectedSupplier, setSelectedSupplier] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,21 +66,18 @@ function AddOrder() {
     try {
       const Id = ID.unique();
       await appwriteService.addPurchaseOrder(Id,{
-        
         Total_Amount: data.Order_Total,
         Order_Date: selectedDate.toDateString(), // Ensure the date is a string
         supplier_Id: data.Supplier_ID,
         User_ID: user.$id,
-        Order_Status: orderStatus,
+        Order_Statues: orderStatus,
         Product_Name: data.ProductsName,
       });
       navigate("/order");
-      
     } catch (error) {
-      
       console.error("Error adding order:", error);
       setError("Failed to add order");
-    }finally{
+    } finally {
       console.log(data.Order_Total);
     }
   };
@@ -88,7 +86,17 @@ function AddOrder() {
     setSelectedDate(date);
     setValue("Order_Date", date.toDateString());
   };
-    
+
+  const handleSupplierSelect = (supplier) => {
+    setSelectedSupplier(supplier.Supplier_Name);
+    setValue("Supplier_ID", supplier.$id);
+  };
+
+  const handleStatusSelect = (status) => {
+    setOrderStatus(status);
+  };
+
+  const orderStatuses = ["Order Placed", "Shipped", "Delivered"];
 
   return (
     <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
@@ -123,28 +131,32 @@ function AddOrder() {
         />
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
-            Select Order Status
+          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            {orderStatus|| 'select order status'}
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white dark:bg-gray-800 border border-gray-300 rounded-lg shadow-lg">
-            <DropdownMenuItem onClick={() => setOrderStatus("Order Placed")} className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-              Order Placed
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setOrderStatus("Delivered")} className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-              Delivered
-            </DropdownMenuItem>
+          <DropdownMenuContent className="bg-white dark:bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
+          {
+            orderStatuses.map((status) => (
+              <DropdownMenuItem 
+                key={status} 
+                onClick={() => handleStatusSelect(status)} 
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                {status}
+              </DropdownMenuItem>
+            ))
+          }
           </DropdownMenuContent>
         </DropdownMenu>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full mb-4 p-3 text-white bg-gray-700 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
-            Select Supplier
+          <DropdownMenuTrigger className="w-full mb-4 p-3 text-gray-700 bg-gray-100 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            {selectedSupplier || "Select Supplier"}
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white dark:bg-gray-800 border border-gray-300 rounded-lg shadow-lg">
+          <DropdownMenuContent className="bg-white dark:bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
             {suppliers.map((supplier) => (
               <DropdownMenuItem
                 key={supplier.$id}
-                onClick={() => setValue("Supplier_ID", supplier.$id)}
+                onClick={() => handleSupplierSelect(supplier)}
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 {supplier.Supplier_Name}
