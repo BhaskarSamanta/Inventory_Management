@@ -69,7 +69,7 @@ export default function Login() {
                     type="submit"
                     className='w-1/3 flex py-3 text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:scale-105 transition duration-75 rounded-lg ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600'
                 >
-                   {Loading?<ClipLoader color="white" loading={Loading} size={20}/>:"Login"}
+                   {Loading ? <ClipLoader size={20} color={"#ffffff"} /> : "Login"}
                 </Button>
                 </div>
             </form>

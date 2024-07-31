@@ -6,7 +6,7 @@ import { ID, Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../index";
 
-export default function AddItems() {
+export default function AddItems({ onProductAdded }) {
   const {
     register,
     handleSubmit,
@@ -77,7 +77,7 @@ export default function AddItems() {
 
       alert("Product added successfully!");
       reset(); // Reset form after successful submission
-      navigate("/Items");
+      onProductAdded(); // Call the callback function
     } catch (error) {
       setError("Failed to add product.");
       console.error("Error adding product:", error);
@@ -97,7 +97,7 @@ export default function AddItems() {
   };
 
   return (
-    <div className="p-6 border-gray-800 bg-gray-100 text-gray-800 shadow-xl rounded-lg w-1/2 mx-auto">
+    <div className="p-6 border-gray-800 bg-gray-100 text-gray-800 shadow-xl rounded-lg w-full mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center">
         Add New Product
       </h2>
@@ -127,7 +127,6 @@ export default function AddItems() {
             <label className="text-gray-800 font-bold mb-1">Price</label>
             <input
               type="number"
-              Ptww
               step="0.01"
               className="border border-gray-600 bg-gray-100 text-gray-600 rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Price"
@@ -216,12 +215,12 @@ export default function AddItems() {
               </Button>
             </div>
 
-            <Button
+            {/* <Button
               onClick={() => navigate("/Items")}
               className=" bg-red-800 text-white p-2 rounded-md hover:bg-red-600 transition w-36"
             >
               Cancel
-            </Button>
+            </Button> */}
           </div>
         </form>
       )}
