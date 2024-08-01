@@ -7,11 +7,11 @@ import { useForm } from 'react-hook-form';
 import { Input, Button } from '../index';
 import { ID } from 'appwrite';
 
-function AddSupplier() {
+function AddSupplier({onSupplierAdded}) {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); 
     const [error, setError] = useState(null);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -42,10 +42,11 @@ function AddSupplier() {
                     User_ID: user.$id
                 }
             );
-            navigate('/suppliers'); // Redirect after successful addition
+            alert('Supplier added successfully!');
+            reset();
+            onSupplierAdded();
         } catch (error) {
             setError('Failed to add supplier');
-            console.error("Appwrite service :: addNewData :: error", error);
         }
     }
 
@@ -90,12 +91,12 @@ function AddSupplier() {
                 >
                     Submit
                 </Button>
-                <Button 
+                {/* <Button 
                     onClick={() => navigate('/suppliers')}
                     className= "w-full py-3 text-lg font-semibold text-white bg-red-600 hover:bg-red-800 rounded-lg shadow-lg hover:shadow-xl transition duration-300" 
                 >
                     Cancel
-                </Button>
+                </Button> */}
             </form>
         </div>
     );

@@ -6,11 +6,11 @@ import { ID } from 'appwrite';
 import { useForm } from 'react-hook-form';
 import { Input, Button } from '../index';
 
-export default function AddCategory() {
+export default function AddCategory({onCategoryAdded}) {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,7 +30,7 @@ export default function AddCategory() {
     }, [navigate]);
 
     const addNewCategory = async (data) => {
-      const Category_ID = ID.unique();
+      const Category_ID = ID.unique(); 
         try {
             await appwriteService.addCatagory(
               Category_ID,
@@ -40,7 +40,8 @@ export default function AddCategory() {
                 User_ID: user.$id,
             });
             alert('Category added successfully!');
-            navigate('/catagory');
+            reset();
+            onCategoryAdded();
         } catch (error) {
             setError(`Failed to add category: ${error.message}`);
         }
@@ -75,12 +76,12 @@ export default function AddCategory() {
                 >
                     Add New Category
                 </Button>
-                <Button 
+                {/* <Button 
                     onClick={() => navigate('/catagory')}
                     className=" w-full bg-red-600 hover:bg-red-800 font-semibold text-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-lg "
                 >
                     Cancel
-                </Button>
+                </Button> */}
             </form>
         </div>
     );

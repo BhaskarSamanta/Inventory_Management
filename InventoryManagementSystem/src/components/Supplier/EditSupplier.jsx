@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate,} from 'react-router-dom';
 import appwriteService from '../../appwrite/config';
 import { Button, Input } from '../index'; // Adjust this import according to your project structure
-
-export default function EditSupplier() {
-    const navigate = useNavigate();
-    const { id } = useParams();
+import { useForm } from 'react-hook-form';
+export default function EditSupplier({onSupplierEditted, SupplierId}) {
+    let id = SupplierId;
     const [supplier, setSupplier] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const {reset} = useForm();
     const [formData, setFormData] = useState({
         Supplier_Name: '',
         Address: '',
@@ -35,7 +35,7 @@ export default function EditSupplier() {
         };
 
         fetchSupplier(id);
-    }, [id]);
+    }, [id,setSupplier]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,7 +54,8 @@ export default function EditSupplier() {
         try {
             await appwriteService.updateSupplier(id, formData);
             alert('Supplier updated successfully!');
-            navigate('/suppliers');
+            reset();
+            onSupplierEditted();
         } catch (error) {
             console.error("Appwrite service :: handleSubmit :: error", error);
             setError('Failed to update supplier. Please try again.');
