@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AddItems, EditProduct } from "../index.js";
+
 export default function Inventory() {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
@@ -29,10 +30,9 @@ export default function Inventory() {
   const [categories, setCategories] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isAddDialogOpen, setisAddDialogOpen] = useState(false); // State to control dialog visibility
-  const [isEditDialogOpen, setisEditDialogOpen] = useState(false); // State to control dialog visibility
-  const navigate = useNavigate();
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false); // State to control dialog visibility
   const [selectedProduct, setSelectedProduct] = useState(null); // State to track the selected product
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -129,12 +129,12 @@ export default function Inventory() {
   };
 
   const handleProductAdded = () => {
-    setisAddDialogOpen(false);
+    setIsAddDialogOpen(false);
     fetchData(user.$id);
   };
 
-  const handleProductEditted = () => {
-    setisEditDialogOpen(false);
+  const handleProductEdited = () => {
+    setSelectedProduct(null); // Close the dialog
     fetchData(user.$id);
   };
 
@@ -145,14 +145,13 @@ export default function Inventory() {
       </h2>
 
       {/* Add product button */}
-
       <Dialog
         className=" mb-4"
         open={isAddDialogOpen}
-        onOpenChange={setisAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
       >
         <DialogTrigger asChild>
-          <Button onClick={() => setisAddDialogOpen(true)}>
+          <Button onClick={() => setIsAddDialogOpen(true)}>
             Add New Product
           </Button>
         </DialogTrigger>
@@ -227,13 +226,15 @@ export default function Inventory() {
                   <TableCell className="px-4 py-2 border-t">
                     <Dialog
                       className="mb-4"
-                      open={isEditDialogOpen}
-                      onOpenChange={setisEditDialogOpen}
+                      open={selectedProduct && selectedProduct.$id === product.$id}
+                      onOpenChange={(isOpen) => {
+                        if (!isOpen) setSelectedProduct(null);
+                      }}
                     >
                       <DialogTrigger asChild>
-                        <Button onClick={() => { 
+                        <Button
+                          onClick={() => {
                             setSelectedProduct(product);
-                            setisEditDialogOpen(true);
                           }}
                         >
                           Edit Product
@@ -241,19 +242,16 @@ export default function Inventory() {
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>{`Edit ${
-                            selectedProduct?.Product_Name || ""
-                          }`}</DialogTitle>
+                          <DialogTitle>{`Edit ${product.Product_Name}`}</DialogTitle>
                           <DialogDescription>
                             <EditProduct
-                              Product_ID={selectedProduct?.$id}
-                              OnProductUpdated={handleProductEditted}
+                              Product_ID={product.$id}
+                              OnProductUpdated={handleProductEdited}
                             />
                           </DialogDescription>
                         </DialogHeader>
                       </DialogContent>
                     </Dialog>
-
                     <Button
                       className="bg-red-700 ml-2 mt-2 text-white p-2 rounded-md hover:bg-red-900"
                       onClick={() => handleDelete(product.$id)}

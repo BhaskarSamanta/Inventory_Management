@@ -113,19 +113,10 @@ export default function EditProduct({Product_ID,OnProductUpdated}) {
     setSelectedCategory(categoryId);
     setValue("Category_ID", categoryId);
   };
-
-  if (!product) {
-    return (
+    return !product?
       <div className="space-y-4 mt-5">
-          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-          <Skeleton className="w-full h-[50px] rounded-full bg-gray-300" />
-        </div>
-    );
-  }else{
-    return (
+          Loading...
+        </div>:
       <div className="p-6 bg-gray-100 text-gray-700 rounded-lg shadow-2xl max-w-md mx-auto">
         <h2 className="text-2xl mb-4 font-bold text-center">Edit Product</h2>
         {error && <p className="text-red-400 text-center mb-4">{error}</p>}
@@ -232,6 +223,4 @@ export default function EditProduct({Product_ID,OnProductUpdated}) {
           </div>
         </form>
       </div>
-    );
-  }
 }
