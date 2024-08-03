@@ -237,7 +237,7 @@ export default function Inventory() {
                             setSelectedProduct(product);
                           }}
                         >
-                          Edit Product
+                          Edit
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
